@@ -1,0 +1,74 @@
+{
+  "name": "domv",
+  "version": "0.0.0",
+  "author": "Joris van der Wel <joris@jorisvanderwel.com>",
+  "description": "Create views as components using DOM. Run the same code on the browser and on the server.",
+  "keywords": [
+    "api",
+    "browser",
+    "browserify",
+    "dom",
+    "html",
+    "jsdom",
+    "template",
+    "w3c",
+    "xml"
+  ],
+  "bugs": {
+    "url": "https://github.com/Joris-van-der-Wel/domv/issues"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "http://opensource.org/licenses/MIT"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Joris-van-der-Wel/domv"
+  },
+  "main": "./lib/domv",
+  "directories": {
+    "lib": "./lib"
+  },
+  "browser": {
+    "jsdom": false
+  },
+  "dependencies": {
+    "eventemitter3": "^0.1.5",
+    "inherits": "^2.0.1",
+    "jsdom": "^1.1.0"
+  },
+  "devDependencies": {
+    "browserify": "^6.2.0",
+    "istanbul": "^0.3.2",
+    "jsdoc": "^3.3.0-alpha10",
+    "jshint": "^2.5.8",
+    "nodeunit": "^0.9.0"
+  },
+  "scripts": {
+    "pretest": "browserify -d -r ./test/browser-test.js:domv-browser-test > test/out/browser-test-bundle.js",
+    "test": "istanbul cover ./node_modules/nodeunit/bin/nodeunit test/domv.js test/Component.js test/HtmlDocument.js && jshint lib/domv.js lib/Component.js lib/Exception.js lib/HtmlDocument.js lib/ClassList.js  test/domv.js test/Component.js test/HtmlDocument.js test/browser-test.js",
+    "posttest": "echo Open test/browser-test.html to run the test suite in a web browser.",
+    "documentation": "jsdoc -r ./lib -d ./jsdoc --pedantic --verbose"
+  },
+  "jshintConfig": {
+    "node": true,
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "freeze": true,
+    "immed": true,
+    "indent": 8,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "nonbsp": true,
+    "nonew": true,
+    "quotmark": "single",
+    "undef": true,
+    "unused": "vars",
+    "strict": true,
+    "laxbreak": true
+  }
+}

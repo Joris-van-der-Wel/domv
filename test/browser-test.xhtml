@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<!-- doctype is not required in xhtml, however it is used in a unit test -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+                <title>domv Unit Tests</title>
+                <link rel="stylesheet" href="browser-test.css" type="text/css"/>
+                <script src="out/browser-test-bundle.js"></script>
+                <script>
+                        window.addEventListener('DOMContentLoaded', function()
+                        {
+                                require('domv-browser-test')();
+                        });
+                </script>
+        </head>
+        <body>
+                <h1 id="nodeunit-header">domv Unit Tests</h1>
+        </body>
+</html>
