@@ -1731,6 +1731,13 @@ module.exports = {
         },
         'Firebug hack': function(test)
         {
+                if (require('jsdom').jsdom)
+                {
+                        // skip test because this feature is disabled server side
+                        test.done();
+                        return;
+                }
+
                 var divNode = this.document.createElement('div');
                 var spanNode = this.document.createElement('span');
                 var wrapped = domv.wrap(divNode);
