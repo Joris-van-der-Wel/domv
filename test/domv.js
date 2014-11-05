@@ -288,6 +288,8 @@ module.exports = {
         {
                 var wrapped;
 
+                test.throws(function(){ domv.text(); });
+
                 wrapped = domv.text(this.document);
                 test.strictEqual(wrapped.outerNodeType, domv.NodeType.TEXT);
                 test.strictEqual(wrapped.outerNode.data, '');
