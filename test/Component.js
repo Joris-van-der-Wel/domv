@@ -102,6 +102,10 @@ module.exports = {
                 test.throws(function() { wrapped.outerNode = 123; }, domv.Exception);
                 test.throws(function() { wrapped.innerNode = 123; }, domv.Exception);
 
+                wrapped.outerNode = null;
+                test.ok(wrapped.outerNode === null);
+                test.ok(wrapped.innerNode === div);
+
                 test.throws(function() { wrapped = new Component(123); }, domv.Exception);
                 test.ok(this.document.doctype);
                 test.throws(function() { wrapped = new Component(this.document.doctype); }.bind(this), domv.Exception);
