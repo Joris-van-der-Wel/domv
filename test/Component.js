@@ -1511,6 +1511,72 @@ module.exports = {
                 test.ok(true);
                 test.done();
         },
+        'clearDomListeners() implicit': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var div = doc.shorthand('div');
+                var wrapped = div();
+
+                var emitDom = function(name)
+                {
+                        var event = this.document.createEvent('Event');
+                        event.initEvent(name, true, true);
+                        wrapped.emitDom(event);
+                }.bind(this);
+
+                var okListener = function()
+                {
+                        test.ok(true);
+                }.bind(this);
+
+                var failListener = function()
+                {
+                        test.ok(false);
+                }.bind(this);
+
+                var uniqueListener = function()
+                {
+                        test.ok(false);
+                };
+
+                test.expect(4);
+
+                wrapped.addLocalListener('test' , okListener);
+                wrapped.addLocalListener('test2', failListener);
+                wrapped.addLocalListener('test2', failListener);
+                wrapped.addLocalListener('test2', failListener);
+
+                wrapped.addDomListener('test' , failListener);
+                wrapped.addDomListener('test' , failListener, false);
+                wrapped.addDomListener('test' , failListener, true);
+                wrapped.addDomListener('test' , failListener, true);
+                wrapped.addDomListener('test2', failListener, true);
+                wrapped.addDomListener('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
+                wrapped.addDomListener('test3', failListener, true);
+                wrapped.addDomListener('test4', failListener, false);
+                wrapped.removeLocalListener('testUnique' , uniqueListener, true);
+                wrapped.outerNode = this.document.createElement('div'); // implicit clearDOMListeners
+
+                emitDom('test');
+                emitDom('test2');
+                emitDom('test3');
+                emitDom('test4');
+                wrapped.emitLocal('test');
+
+                wrapped.addDomListener('test', failListener);
+                // setting the outerNode to something different should clear the DOM listeners too
+                wrapped.outerNode = this.document.createElement('span');
+                test.strictEqual(wrapped.outerNodeName, 'span');
+
+                emitDom('test');
+                emitDom('test2');
+                emitDom('test3');
+                emitDom('test4');
+                wrapped.emitLocal('test');
+
+                test.ok(true);
+                test.done();
+        },
         'cleanup()': function(test)
         {
                 var doc = domv.wrap(this.document);
