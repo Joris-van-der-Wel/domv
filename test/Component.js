@@ -1799,6 +1799,86 @@ module.exports = {
 
                 test.done();
         },
+        'value': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var input = doc.shorthand('input');
+                var div = doc.shorthand('div');
+                var wrapped = input({type: 'text'});
+
+                test.strictEqual(wrapped.getAttr('value'), null);
+                test.strictEqual(wrapped.value, '');
+                wrapped.value = 'waarde';
+                test.strictEqual(wrapped.value, 'waarde');
+                test.strictEqual(wrapped.getAttr('value'), null);
+
+                wrapped = input({type: 'text', value: 'initieel'});
+                test.strictEqual(wrapped.value, 'initieel');
+                wrapped.value = 'waarde';
+                test.strictEqual(wrapped.value, 'waarde');
+                test.strictEqual(wrapped.getAttr('value'), 'initieel');
+
+                wrapped = div();
+                test.strictEqual(wrapped.value, undefined);
+
+                test.done();
+        },
+        'checked': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var input = doc.shorthand('input');
+                var div = doc.shorthand('div');
+                var wrapped = input({type: 'checkbox'});
+
+                test.strictEqual(wrapped.getAttr('checked'), null);
+                test.strictEqual(wrapped.checked, false);
+                wrapped.checked = true;
+                test.strictEqual(wrapped.checked, true);
+                test.strictEqual(wrapped.getAttr('checked'), null);
+
+                wrapped = input({type: 'check', checked: 'checked'});
+                test.strictEqual(wrapped.checked, true);
+                wrapped.checked = false;
+                test.strictEqual(wrapped.checked, false);
+                test.strictEqual(wrapped.getAttr('checked'), 'checked');
+
+                wrapped = input({type: 'checkbox', checked: true});
+                test.strictEqual(wrapped.checked, true);
+                test.strictEqual(wrapped.getAttr('checked'), 'checked');
+
+                wrapped = div();
+                test.strictEqual(wrapped.checked, undefined);
+
+                test.done();
+        },
+        'selected': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var option = doc.shorthand('option');
+                var div = doc.shorthand('div');
+                var wrapped = option();
+
+                test.strictEqual(wrapped.getAttr('selected'), null);
+                test.strictEqual(wrapped.selected, false);
+                wrapped.selected = true;
+                test.strictEqual(wrapped.selected, true);
+                test.strictEqual(wrapped.getAttr('selected'), null);
+
+                wrapped = option({selected: 'selected'});
+                test.strictEqual(wrapped.selected, true);
+                wrapped.selected = false;
+                test.strictEqual(wrapped.selected, false);
+                test.strictEqual(wrapped.getAttr('selected'), 'selected');
+
+                wrapped = option({selected: true});
+                test.strictEqual(wrapped.selected, true);
+                test.strictEqual(wrapped.getAttr('selected'), 'selected');
+
+                wrapped = div();
+                test.strictEqual(wrapped.selected, undefined);
+
+                test.done();
+        },
         'Firebug hack': function(test)
         {
                 if (require('jsdom').jsdom)
