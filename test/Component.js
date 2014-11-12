@@ -364,6 +364,9 @@ module.exports = {
                 wrapped.appendChild(this.document.createElement('h1'));
                 wrapped.appendChild(domv.create(this.document, 'h2'));
                 wrapped.appendChild(this.document.createElement('h3'), domv.create(this.document, 'h4'));
+                wrapped.appendChild(null); // should do nothing
+                wrapped.appendChild(undefined); // should do nothing
+                wrapped.appendChild(false); // should do nothing
 
                 test.strictEqual('h1', wrapped.firstChild.outerNode.nodeName.toLowerCase());
                 test.strictEqual('h2', wrapped.firstChild.nextSibling.outerNode.nodeName.toLowerCase());
@@ -406,6 +409,9 @@ module.exports = {
                 wrapped.prependChild(this.document.createElement('h4'));
                 wrapped.prependChild(domv.create(this.document, 'h3'));
                 wrapped.prependChild(this.document.createElement('h1'), domv.create(this.document, 'h2'));
+                wrapped.prependChild(null); // should do nothing
+                wrapped.prependChild(undefined); // should do nothing
+                wrapped.prependChild(false); // should do nothing
 
                 test.strictEqual('h1', wrapped.firstChild.outerNode.nodeName.toLowerCase());
                 test.strictEqual('h2', wrapped.firstChild.nextSibling.outerNode.nodeName.toLowerCase());
@@ -448,6 +454,9 @@ module.exports = {
                 wrapped.siblingBefore(domv.create(this.document, 'h2'));
                 wrapped.siblingBefore(this.document.createElement('h3'), domv.create(this.document, 'h4'));
                 wrapped.siblingBefore('Some text');
+                wrapped.siblingBefore(null); // should do nothing
+                wrapped.siblingBefore(undefined); // should do nothing
+                wrapped.siblingBefore(false); // should do nothing
 
                 test.strictEqual('h1', container.firstChild.outerNode.nodeName.toLowerCase());
                 test.strictEqual('h2', container.firstChild.nextSibling.outerNode.nodeName.toLowerCase());
@@ -479,6 +488,9 @@ module.exports = {
                 wrapped.siblingAfter('Some text');
                 wrapped.siblingAfter(domv.create(this.document, 'h3'));
                 wrapped.siblingAfter(this.document.createElement('h1'), domv.create(this.document, 'h2'));
+                wrapped.siblingAfter(null); // should do nothing
+                wrapped.siblingAfter(undefined); // should do nothing
+                wrapped.siblingAfter(false); // should do nothing
 
                 test.strictEqual('div', container.firstChild.outerNode.nodeName.toLowerCase());
                 test.strictEqual('h1', container.firstChild.nextSibling.outerNode.nodeName.toLowerCase());
