@@ -33,7 +33,6 @@
     "jsdom": false
   },
   "dependencies": {
-    "eventemitter3": "^0.1.5",
     "inherits": "^2.0.1",
     "jsdom": "^1.1.0"
   },

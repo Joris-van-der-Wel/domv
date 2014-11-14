@@ -1149,108 +1149,72 @@ module.exports = {
 
                 test.done();
         },
-        'local event methods': function(test)
-        {
-                var doc = domv.wrap(this.document);
-                var div = doc.shorthand('div');
-                var wrapped = div();
-                var shouldFire;
-
-                var listener = function(arg1)
-                {
-                        test.ok(shouldFire);
-                        test.ok(this === wrapped);
-                        test.ok(arg1 === 'foo');
-                };
-
-                var failListener = function()
-                {
-                        test.ok(false);
-                };
-
-                test.expect(15);
-                wrapped.addLocalListener('abc', failListener);
-                wrapped.addLocalListener('test', listener);
-                wrapped.addListener('test2', listener); // using domv.isDOMEvent() -> false
-                wrapped.addLocalListener('def', failListener);
-                wrapped.removeLocalListener('somethingelse', listener); // should have no effect
-                wrapped.removeLocalListener('abc', failListener);
-                wrapped.removeLocalListener('def', failListener);
-                wrapped.removeLocalListener('def', failListener);
-                wrapped.removeLocalListener('def', failListener);
-                wrapped.removeLocalListener('def', failListener);
-                wrapped.removeLocalListener('test', function(){}); // should have no effect
-                wrapped.removeDomListener('test', listener, false); // should have no effect
-                wrapped.removeDomListener('test', listener, true); // should have no effect
-
-                shouldFire = true;
-                test.ok(wrapped.emitLocal('test', 'foo'));
-                test.ok(wrapped.emitLocal('test2', 'foo'));
-
-                wrapped.removeLocalListener('test', listener);
-                wrapped.removeListener('test2', listener);
-                shouldFire = false;
-                test.ok(!wrapped.emitLocal('test', 'asdf'));
-                test.ok(!wrapped.emitLocal('test2', 'asdf'));
-
-                shouldFire = true;
-                wrapped.addLocalOnce('testonce', listener);
-                test.ok(wrapped.emitLocal('testonce', 'foo'));
-                shouldFire = false;
-                test.ok(!wrapped.emitLocal('testonce', 'foo'));
-
-                test.done();
-        },
         'DOM Event capture phase': function(test)
         {
                 var doc = domv.wrap(this.document);
                 var div = doc.shorthand('div');
                 var wrapped = div();
                 var called = false;
-                var event;
 
-                wrapped.addDomListener('customtest', function(e)
+                wrapped.on('customtest', function(e)
                 {
                         test.ok(this === wrapped);
                         called = true;
                 }, true); // capture phase
 
                 test.expect(2);
-                event = this.document.createEvent('Event');
-                event.initEvent('customtest', true, true);
-                wrapped.emitDom(event);
+                wrapped.emit('customtest');
                 test.ok(called);
                 test.done();
         },
-        'DOM Event emitDomCustom()': function(test)
+        'DOM Event emit() custom event': function(test)
         {
                 var doc = domv.wrap(this.document);
                 var div = doc.shorthand('div');
                 var wrapped = div();
                 var called = 0;
 
-                wrapped.addDomListener('customtest', function(e)
+                function customtest(e)
                 {
                         test.ok(this === wrapped);
                         test.ok(e.cancelable);
                         test.ok(e.bubbles);
                         ++called;
-                }, true); // capture phase
+                }
 
-                wrapped.addDomListener('customtest2', function(e)
+                function customtest2(e)
                 {
                         test.ok(this === wrapped);
                         test.strictEqual(e.abc, 'zyx');
                         test.ok(!e.cancelable);
                         test.ok(!e.bubbles);
                         ++called;
-                }, true); // capture phase
+                }
 
-                test.expect(8);
+                wrapped.on('customtest', customtest, false); // bubble phase
+                wrapped.on('customtest2', customtest2, true); // capture phase
 
-                wrapped.emitDomCustom('customtest');
-                wrapped.emitDomCustom('customtest2', {abc: 'zyx'}, false, false);
+                test.expect(12);
+
+                wrapped.emit('customtest');
+                wrapped.emit('customtest2', {abc: 'zyx'}, false, false);
                 test.strictEqual(called, 2);
+
+                wrapped.removeListener('customtest', customtest);
+                wrapped.emit('customtest');
+                test.strictEqual(called, 2);
+                wrapped.removeListener('customtest', customtest);
+                wrapped.emit('customtest');
+                test.strictEqual(called, 2);
+
+
+                wrapped.removeListener('customtest2', customtest2, true);
+                wrapped.emit('customtest2');
+                test.strictEqual(called, 2);
+                wrapped.removeListener('customtest2', customtest2, true);
+                wrapped.emit('customtest2');
+                test.strictEqual(called, 2);
+
                 test.done();
         },
         'DOM Event bubble phase': function(test)
@@ -1259,7 +1223,6 @@ module.exports = {
                 var div = doc.shorthand('div');
                 var wrapped = div();
                 var called = false;
-                var event;
 
                 var listener = function(e)
                 {
@@ -1267,44 +1230,12 @@ module.exports = {
                         called = true;
                 };
 
-                wrapped.addDomListener('customtest', listener, false); // bubble phase
+                wrapped.on('customtest', listener, false); // bubble phase
 
-                test.expect(5);
-                event = this.document.createEvent('Event');
-                event.initEvent('customtest', true, true);
-                wrapped.emitDom(event);
+                wrapped.emit('customtest');
                 test.ok(called);
 
                 called = false;
-
-                // (IE does not like click events on disconnected elements,
-                //  which does not make any sense anyway ;) )
-                domv.wrap(this.document.body).appendChild(wrapped);
-                // domv.isDOMEvent() -> true
-                wrapped.addListener('click', listener, false); // bubble phase
-
-                event = this.document.createEvent('MouseEvents');
-                event.initMouseEvent('click', true, true, global,
-                       1, 1000, 200, 300, 400,
-                       false, false, false, false,
-                       0, null
-                );
-                wrapped.emitDom(event);
-                test.ok(called);
-
-                wrapped.removeListener('click', listener, false);
-
-                called = false;
-                event = this.document.createEvent('MouseEvents');
-                event.initMouseEvent('click', true, true, global,
-                       1, 1000, 200, 300, 400,
-                       false, false, false, false,
-                       0, null
-                );
-                wrapped.emitDom(event);
-                test.ok(!called);
-
-                wrapped.removeNode();
                 test.done();
         },
         'DOM Event phases, connected to Document': function(test)
@@ -1315,7 +1246,6 @@ module.exports = {
                 var parent = div();
                 var child = div();
                 var progress;
-                var event;
 
                 domv.wrap(this.document.body).appendChild(grandparent);
 
@@ -1324,7 +1254,7 @@ module.exports = {
 
                 progress = -3;
 
-                grandparent.addDomListener('customtest', function(e)
+                grandparent.on('customtest', function(e)
                 {
                         //console.log('grandparent capture');
                         test.ok(this === grandparent);
@@ -1332,7 +1262,7 @@ module.exports = {
                         ++progress;
                 }, true); // capture phase
 
-                parent.addDomListener('customtest', function(e)
+                parent.on('customtest', function(e)
                 {
                         //console.log('parent capture');
                         test.ok(this === parent);
@@ -1340,7 +1270,7 @@ module.exports = {
                         ++progress;
                 }, true); // capture phase
 
-                child.addDomListener('customtest', function(e)
+                child.on('customtest', function(e)
                 {
                         //console.log('child capture');
                         test.ok(this === child);
@@ -1348,7 +1278,7 @@ module.exports = {
                         ++progress;
                 }, true); // capture phase
 
-                child.addDomListener('customtest', function(e)
+                child.on('customtest', function(e)
                 {
                         //console.log('child bubble');
                         test.ok(this === child);
@@ -1356,7 +1286,7 @@ module.exports = {
                         ++progress;
                 }); // bubble phase
 
-                parent.addDomListener('customtest', function(e)
+                parent.on('customtest', function(e)
                 {
                         //console.log('parent bubble');
                         test.ok(this === parent);
@@ -1364,7 +1294,7 @@ module.exports = {
                         ++progress;
                 }, false); // bubble phase
 
-                grandparent.addDomListener('customtest', function(e)
+                grandparent.on('customtest', function(e)
                 {
                         //console.log('grandparent bubble');
                         test.ok(this === grandparent);
@@ -1373,9 +1303,7 @@ module.exports = {
                 }); // bubble phase
 
                 test.expect(13);
-                event = this.document.createEvent('Event');
-                event.initEvent('customtest', true, true);
-                child.emitDom(event);
+                child.emit('customtest');
                 test.strictEqual(progress, 3);
 
                 grandparent.removeNode();
@@ -1399,7 +1327,7 @@ module.exports = {
 
                 progress = -3;
 
-                grandparent.addDomListener('customtest', function(e)
+                grandparent.on('customtest', function(e)
                 {
                         //console.log('grandparent capture');
                         test.ok(this === grandparent);
@@ -1407,7 +1335,7 @@ module.exports = {
                         ++progress;
                 }, true); // capture phase
 
-                parent.addDomListener('customtest', function(e)
+                parent.on('customtest', function(e)
                 {
                         //console.log('parent capture');
                         test.ok(this === parent);
@@ -1415,7 +1343,7 @@ module.exports = {
                         ++progress;
                 }, true); // capture phase
 
-                child.addDomListener('customtest', function(e)
+                child.on('customtest', function(e)
                 {
                         //console.log('child capture');
                         test.ok(this === child);
@@ -1423,7 +1351,7 @@ module.exports = {
                         ++progress;
                 }, true); // capture phase
 
-                child.addDomListener('customtest', function(e)
+                child.on('customtest', function(e)
                 {
                         //console.log('child bubble');
                         test.ok(this === child);
@@ -1431,7 +1359,7 @@ module.exports = {
                         ++progress;
                 }); // bubble phase
 
-                parent.addDomListener('customtest', function(e)
+                parent.on('customtest', function(e)
                 {
                         //console.log('parent bubble');
                         test.ok(this === parent);
@@ -1439,7 +1367,7 @@ module.exports = {
                         ++progress;
                 }, false); // bubble phase
 
-                grandparent.addDomListener('customtest', function(e)
+                grandparent.on('customtest', function(e)
                 {
                         //console.log('grandparent bubble');
                         test.ok(this === grandparent);
@@ -1448,32 +1376,18 @@ module.exports = {
                 }); // bubble phase
 
                 test.expect(13);
-                event = this.document.createEvent('Event');
-                event.initEvent('customtest', true, true);
-                child.emitDom(event);
+                child.emit('customtest');
                 test.strictEqual(progress, 3);
 
                 grandparent.removeNode();
 
                 test.done();
         },
-        'clearDomListeners()': function(test)
+        'clearListeners()': function(test)
         {
                 var doc = domv.wrap(this.document);
                 var div = doc.shorthand('div');
                 var wrapped = div();
-
-                var emitDom = function(name)
-                {
-                        var event = this.document.createEvent('Event');
-                        event.initEvent(name, true, true);
-                        wrapped.emitDom(event);
-                }.bind(this);
-
-                var okListener = function()
-                {
-                        test.ok(true);
-                }.bind(this);
 
                 var failListener = function()
                 {
@@ -1485,56 +1399,31 @@ module.exports = {
                         test.ok(false);
                 };
 
-                test.expect(4);
+                wrapped.on('test' , failListener);
+                wrapped.on('test' , failListener, false);
+                wrapped.on('test' , failListener, true);
+                wrapped.on('test' , failListener, true);
+                wrapped.on('test2', failListener, true);
+                wrapped.on('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
+                wrapped.on('test3', failListener, true);
+                wrapped.on('test4', failListener, false);
+                wrapped.removeListener('testUnique', uniqueListener, true);
+                wrapped.clearListeners();
 
-                wrapped.addLocalListener('test' , okListener);
-                wrapped.addLocalListener('test2', failListener);
-                wrapped.addLocalListener('test2', failListener);
-                wrapped.addLocalListener('test2', failListener);
-
-                wrapped.addDomListener('test' , failListener);
-                wrapped.addDomListener('test' , failListener, false);
-                wrapped.addDomListener('test' , failListener, true);
-                wrapped.addDomListener('test' , failListener, true);
-                wrapped.addDomListener('test2', failListener, true);
-                wrapped.addDomListener('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
-                wrapped.addDomListener('test3', failListener, true);
-                wrapped.addDomListener('test4', failListener, false);
-                wrapped.removeLocalListener('testUnique' , uniqueListener, true);
-                wrapped.clearDomListeners();
-
-                emitDom('test');
-                emitDom('test2');
-                emitDom('test3');
-                emitDom('test4');
-                wrapped.emitLocal('test');
-
-                wrapped.addDomListener('test', failListener);
-                // setting the outerNode to something different should clear the DOM listeners too
-                wrapped.outerNode = this.document.createElement('span');
-                test.strictEqual(wrapped.outerNodeName, 'span');
-
-                emitDom('test');
-                emitDom('test2');
-                emitDom('test3');
-                emitDom('test4');
-                wrapped.emitLocal('test');
+                wrapped.emit('test');
+                wrapped.emit('test2');
+                wrapped.emit('test3');
+                wrapped.emit('test4');
+                wrapped.emit('test');
 
                 test.ok(true);
                 test.done();
         },
-        'clearDomListeners() implicit': function(test)
+        'clearListeners() implicit': function(test)
         {
                 var doc = domv.wrap(this.document);
                 var div = doc.shorthand('div');
                 var wrapped = div();
-
-                var emitDom = function(name)
-                {
-                        var event = this.document.createEvent('Event');
-                        event.initEvent(name, true, true);
-                        wrapped.emitDom(event);
-                }.bind(this);
 
                 var okListener = function()
                 {
@@ -1551,40 +1440,40 @@ module.exports = {
                         test.ok(false);
                 };
 
-                test.expect(4);
+                test.expect(2);
 
-                wrapped.addLocalListener('test' , okListener);
-                wrapped.addLocalListener('test2', failListener);
-                wrapped.addLocalListener('test2', failListener);
-                wrapped.addLocalListener('test2', failListener);
+                wrapped.on('test' , okListener);
+                wrapped.on('test2', failListener);
+                wrapped.on('test2', failListener);
+                wrapped.on('test2', failListener);
 
-                wrapped.addDomListener('test' , failListener);
-                wrapped.addDomListener('test' , failListener, false);
-                wrapped.addDomListener('test' , failListener, true);
-                wrapped.addDomListener('test' , failListener, true);
-                wrapped.addDomListener('test2', failListener, true);
-                wrapped.addDomListener('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
-                wrapped.addDomListener('test3', failListener, true);
-                wrapped.addDomListener('test4', failListener, false);
-                wrapped.removeLocalListener('testUnique' , uniqueListener, true);
-                wrapped.outerNode = this.document.createElement('div'); // implicit clearDOMListeners
+                wrapped.on('test' , failListener);
+                wrapped.on('test' , failListener, false);
+                wrapped.on('test' , failListener, true);
+                wrapped.on('test' , failListener, true);
+                wrapped.on('test2', failListener, true);
+                wrapped.on('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
+                wrapped.on('test3', failListener, true);
+                wrapped.on('test4', failListener, false);
+                wrapped.removeListener('testUnique' , uniqueListener, true);
+                wrapped.outerNode = this.document.createElement('div'); // implicit clearListeners
 
-                emitDom('test');
-                emitDom('test2');
-                emitDom('test3');
-                emitDom('test4');
-                wrapped.emitLocal('test');
+                wrapped.emit('test');
+                wrapped.emit('test2');
+                wrapped.emit('test3');
+                wrapped.emit('test4');
+                wrapped.emit('test');
 
-                wrapped.addDomListener('test', failListener);
+                wrapped.on('test', failListener);
                 // setting the outerNode to something different should clear the DOM listeners too
                 wrapped.outerNode = this.document.createElement('span');
                 test.strictEqual(wrapped.outerNodeName, 'span');
 
-                emitDom('test');
-                emitDom('test2');
-                emitDom('test3');
-                emitDom('test4');
-                wrapped.emitLocal('test');
+                wrapped.emit('test');
+                wrapped.emit('test2');
+                wrapped.emit('test3');
+                wrapped.emit('test4');
+                wrapped.emit('test');
 
                 test.ok(true);
                 test.done();
@@ -1596,18 +1485,6 @@ module.exports = {
                 var wrapped = div();
                 var emittedCleanup = 0;
 
-                var emitDom = function(name)
-                {
-                        var event = this.document.createEvent('Event');
-                        event.initEvent(name, true, true);
-                        wrapped.emitDom(event);
-                }.bind(this);
-
-                var okListener = function()
-                {
-                        test.ok(true);
-                }.bind(this);
-
                 var failListener = function()
                 {
                         test.ok(false);
@@ -1618,77 +1495,52 @@ module.exports = {
                         test.ok(false);
                 };
 
-                test.expect(5);
+                test.expect(4);
 
-                wrapped.addLocalListener('test' , okListener);
-                wrapped.addLocalListener('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
-                wrapped.addLocalListener('test2', failListener);
-                wrapped.addLocalListener('test2', failListener);
-                wrapped.addLocalListener('test2', failListener);
+                wrapped.on('testUnique' , uniqueListener, true); // so that we might trigger a gap in the array
+                wrapped.on('test2', failListener);
+                wrapped.on('test2', failListener);
+                wrapped.on('test2', failListener);
+                wrapped.on('test' , failListener);
+                wrapped.on('test' , failListener, false);
+                wrapped.on('test' , failListener, true);
+                wrapped.on('test' , failListener, true);
+                wrapped.on('test2', failListener, true);
+                wrapped.on('test3', failListener, true);
+                wrapped.on('test4', failListener, false);
+                wrapped.removeListener('testUnique' , uniqueListener, true);
 
-                wrapped.addDomListener('test' , failListener);
-                wrapped.addDomListener('test' , failListener, false);
-                wrapped.addDomListener('test' , failListener, true);
-                wrapped.addDomListener('test' , failListener, true);
-                wrapped.addDomListener('test2', failListener, true);
-                wrapped.addDomListener('test3', failListener, true);
-                wrapped.addDomListener('test4', failListener, false);
-                wrapped.removeLocalListener('testUnique' , uniqueListener, true);
-
-                wrapped.on('cleanup', function(){
+                wrapped.on('domv-cleanup', function(){
                         ++emittedCleanup;
                 });
 
-                wrapped.on('cleanup', function(){
+                wrapped.on('domv-cleanup', function(){
                         ++emittedCleanup;
                 });
 
                 wrapped.cleanup();
                 test.strictEqual(emittedCleanup, 2);
+                wrapped.cleanup();
+                test.strictEqual(emittedCleanup, 2);
 
-                emitDom('test');
-                emitDom('test2');
-                emitDom('test3');
-                emitDom('test4');
-                wrapped.emitLocal('test');
+                wrapped.emit('test');
+                wrapped.emit('test2');
+                wrapped.emit('test3');
+                wrapped.emit('test4');
+                wrapped.emit('test');
 
-                wrapped.addDomListener('test', failListener);
+                wrapped.on('test', failListener);
                 // setting the outerNode to something different should clear the DOM listeners too
                 wrapped.outerNode = this.document.createElement('span');
                 test.strictEqual(wrapped.outerNodeName, 'span');
 
-                emitDom('test');
-                emitDom('test2');
-                emitDom('test3');
-                emitDom('test4');
-                wrapped.emitLocal('test');
+                wrapped.emit('test');
+                wrapped.emit('test2');
+                wrapped.emit('test3');
+                wrapped.emit('test4');
+                wrapped.emit('test');
 
                 test.ok(true);
-                test.done();
-        },
-        'local event type detection': function(test)
-        {
-                var doc = domv.wrap(this.document);
-                var div = doc.shorthand('div');
-                var wrapped = div();
-                var shouldFire;
-
-                var listener = function(arg1)
-                {
-                        test.ok(shouldFire);
-                        test.ok(this === wrapped);
-                        test.ok(arg1 === 'foo');
-                };
-
-                test.expect(3);
-                wrapped.on('test', listener);
-                shouldFire = true;
-                wrapped.emitLocal('test', 'foo');
-
-                wrapped.removeListener('test', listener);
-                shouldFire = false;
-                wrapped.emitLocal('test', 'asdf');
-
                 test.done();
         },
         'stringifyAsHtml()': function(test)
