@@ -1936,5 +1936,56 @@ module.exports = {
                 test.ok(wrapped[1] === null);
                 test.ok(wrapped[2] === undefined);
                 test.done();
+        },
+        'childNodesIndex': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var div = doc.shorthand('div');
+                var wrapped = div('foo',
+                        'some text',
+                        'bla bla bla',
+                        div('', 'another div'),
+                        div(),
+                        this.document.createComment('comment!'),
+                        div()
+                );
+
+                test.strictEqual(wrapped.childNodesIndex, -1);
+                test.strictEqual(wrapped.childNodes[0].childNodesIndex, 0);
+                test.strictEqual(wrapped.childNodes[1].childNodesIndex, 1);
+                test.strictEqual(wrapped.childNodes[2].childNodesIndex, 2);
+                test.strictEqual(wrapped.childNodes[3].childNodesIndex, 3);
+                test.strictEqual(wrapped.childNodes[4].childNodesIndex, 4);
+                test.strictEqual(wrapped.childNodes[5].childNodesIndex, 5);
+
+                wrapped = div();
+                wrapped.outerNode = null;
+                test.strictEqual(wrapped.childNodesIndex, -1);
+
+                test.done();
+        },
+        'childrenIndex': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var div = doc.shorthand('div');
+                var wrapped = div('foo',
+                        'some text',
+                        'bla bla bla',
+                        div('', 'another div'),
+                        div(),
+                        this.document.createComment('comment!'),
+                        div()
+                );
+
+                test.strictEqual(wrapped.childrenIndex, -1);
+                test.strictEqual(wrapped.children[0].childrenIndex, 0);
+                test.strictEqual(wrapped.children[1].childrenIndex, 1);
+                test.strictEqual(wrapped.children[2].childrenIndex, 2);
+
+                wrapped = div();
+                wrapped.outerNode = null;
+                test.strictEqual(wrapped.childrenIndex, -1);
+
+                test.done();
         }
 };
