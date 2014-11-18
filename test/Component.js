@@ -1709,6 +1709,14 @@ module.exports = {
                 wrapped = input({type: 'checkbox', checked: true});
                 test.strictEqual(wrapped.checked, true);
                 test.strictEqual(wrapped.getAttr('checked'), 'checked');
+                wrapped.attr('checked', false);
+                test.strictEqual(wrapped.checked, false);
+                test.strictEqual(wrapped.getAttr('checked'), null);
+                wrapped.checked = false;
+                test.strictEqual(wrapped.checked, false);
+                wrapped.attr('checked', 'checked');
+                test.strictEqual(wrapped.checked, false);
+                test.strictEqual(wrapped.getAttr('checked'), 'checked');
 
                 wrapped = div();
                 test.strictEqual(wrapped.checked, undefined);
@@ -1736,6 +1744,14 @@ module.exports = {
 
                 wrapped = option({selected: true});
                 test.strictEqual(wrapped.selected, true);
+                test.strictEqual(wrapped.getAttr('selected'), 'selected');
+                wrapped.attr('selected', false);
+                test.strictEqual(wrapped.selected, false);
+                test.strictEqual(wrapped.getAttr('selected'), null);
+                wrapped.selected = false;
+                test.strictEqual(wrapped.selected, false);
+                wrapped.attr('selected', 'selected');
+                test.strictEqual(wrapped.selected, false);
                 test.strictEqual(wrapped.getAttr('selected'), 'selected');
 
                 wrapped = div();
