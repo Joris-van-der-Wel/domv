@@ -1762,13 +1762,6 @@ module.exports = {
         },
         'Firebug hack': function(test)
         {
-                if (require('jsdom').jsdom)
-                {
-                        // skip test because this feature is disabled server side
-                        test.done();
-                        return;
-                }
-
                 var divNode = this.document.createElement('div');
                 var spanNode = this.document.createElement('span');
                 var wrapped = domv.wrap(divNode);
@@ -1779,7 +1772,7 @@ module.exports = {
 
                 wrapped.outerNode = null;
                 wrapped.innerNode = null;
-                test.strictEqual(wrapped.length, undefined);
+                test.strictEqual(wrapped.length, 0);
 
                 wrapped.outerNode = divNode;
                 wrapped.innerNode = divNode;
@@ -1793,11 +1786,14 @@ module.exports = {
                 test.ok(wrapped[1] === divNode);
                 test.ok(wrapped[2] === spanNode);
 
+                wrapped.updateConsoleHack = null; // disable it
                 wrapped.splice = 123;
                 wrapped.length = -50;
                 wrapped[0] = 'abc';
                 wrapped[1] = null;
                 wrapped[2] = undefined;
+                wrapped.outerNode = spanNode;
+                wrapped.innerNode = divNode;
 
                 test.strictEqual(wrapped.splice, 123);
                 test.strictEqual(wrapped.length, -50);
