@@ -1173,10 +1173,11 @@ module.exports = {
                 var div = doc.shorthand('div');
                 var wrapped = div();
                 var called = 0;
+                var myThisObject = {foo: 'bar'};
 
                 function customtest(e)
                 {
-                        test.ok(this === wrapped);
+                        test.ok(this === wrapped); // default this object
                         test.ok(e.cancelable);
                         test.ok(e.bubbles);
                         ++called;
@@ -1184,7 +1185,7 @@ module.exports = {
 
                 function customtest2(e)
                 {
-                        test.ok(this === wrapped);
+                        test.ok(this === myThisObject);
                         test.strictEqual(e.abc, 'zyx');
                         test.ok(!e.cancelable);
                         test.ok(!e.bubbles);
@@ -1192,7 +1193,7 @@ module.exports = {
                 }
 
                 wrapped.on('customtest', customtest, false); // bubble phase
-                wrapped.on('customtest2', customtest2, true); // capture phase
+                wrapped.on('customtest2', customtest2, true, myThisObject); // capture phase
 
                 test.expect(12);
 
@@ -1208,10 +1209,10 @@ module.exports = {
                 test.strictEqual(called, 2);
 
 
-                wrapped.removeListener('customtest2', customtest2, true);
+                wrapped.removeListener('customtest2', customtest2, true, myThisObject);
                 wrapped.emit('customtest2');
                 test.strictEqual(called, 2);
-                wrapped.removeListener('customtest2', customtest2, true);
+                wrapped.removeListener('customtest2', customtest2, true, myThisObject);
                 wrapped.emit('customtest2');
                 test.strictEqual(called, 2);
 
