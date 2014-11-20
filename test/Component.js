@@ -715,6 +715,12 @@ module.exports = {
                 test.ok(!wrapped.selector('> .abc'));
                 test.ok(wrapped.selector('> .wvu'));
 
+                // selector on Document
+                wrapped = div('abc', {id: 'fooselectortest'});
+                this.document.body.appendChild(wrapped.outerNode);
+                test.ok(doc.selector('div#fooselectortest'));
+                test.ok(doc.selector('div#fooselectortest').hasClass('abc'));
+
                 test.done();
         },
         'selector constructor args': function(test)
