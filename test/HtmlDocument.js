@@ -206,14 +206,32 @@ module.exports = {
 
                 test.done();
         },
-        'addJSONData()': function(test)
+        'addJSONData() & getJSONData()': function(test)
         {
                 var htmldoc, script;
                 htmldoc = new HtmlDocument(this.document);
-                script = htmldoc.addJSONData('window.foo', {'abc': 'def'});
+                script = htmldoc.addJSONData('foo', {'abc': 'def'});
 
                 test.ok(script.isNodeEqual(htmldoc.outerNodeWrapped.selector('script')));
-                test.strictEqual(script.textContent, 'window.foo={"abc":"def"};');
+                test.strictEqual(script.getAttr('data-identifier'), 'foo');
+                test.strictEqual(script.getAttr('type'), 'application/json');
+                test.strictEqual(script.textContent, '{"abc":"def"}');
+                test.deepEqual(htmldoc.getJSONData('foo'), {abc: 'def'});
+                test.strictEqual(htmldoc.getJSONData('bar'), null);
+                test.done();
+        },
+        'addJSONData() & getJSONData() after wrapping': function(test)
+        {
+                var htmldoc, script;
+                htmldoc = new HtmlDocument(this.document);
+                htmldoc.addJSONData('foo', {'abc': 'def'});
+                // missing identifier:
+                htmldoc.head.appendChild(htmldoc.create('script', {type: 'application/json'}));
+
+                htmldoc = new HtmlDocument(htmldoc.outerNode);
+                test.deepEqual(htmldoc.getJSONData('foo'), {abc: 'def'});
+                test.strictEqual(htmldoc.getJSONData('bar'), null);
+                test.strictEqual(htmldoc.getJSONData(''), null);
                 test.done();
         },
         'stringifyAsHtml() (overriden)': function(test)
