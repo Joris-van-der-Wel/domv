@@ -1689,6 +1689,18 @@ module.exports = {
                 test.strictEqual(wrapped.value, 'waarde');
                 test.strictEqual(wrapped.getAttr('value'), 'initieel');
 
+                wrapped = input({type: 'text', value: 'initieel'});
+                test.strictEqual(wrapped.value, 'initieel');
+                test.strictEqual(wrapped.getAttr('value'), 'initieel');
+                wrapped.attr('value', 'attr waarde');
+                test.strictEqual(wrapped.value, 'attr waarde');
+                test.strictEqual(wrapped.getAttr('value'), 'attr waarde');
+                wrapped.value = 'idl waarde';
+                test.strictEqual(wrapped.getAttr('value'), 'attr waarde');
+                wrapped.attr('value', 'andere attr waarde');
+                test.strictEqual(wrapped.value, 'idl waarde');
+                test.strictEqual(wrapped.getAttr('value'), 'andere attr waarde');
+
                 wrapped = div();
                 test.strictEqual(wrapped.value, undefined);
 
