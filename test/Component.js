@@ -1670,7 +1670,7 @@ module.exports = {
 
                 test.done();
         },
-        'value': function(test)
+        'input value': function(test)
         {
                 var doc = domv.wrap(this.document);
                 var input = doc.shorthand('input');
@@ -1700,6 +1700,42 @@ module.exports = {
                 wrapped.attr('value', 'andere attr waarde');
                 test.strictEqual(wrapped.value, 'idl waarde');
                 test.strictEqual(wrapped.getAttr('value'), 'andere attr waarde');
+
+                wrapped = div();
+                test.strictEqual(wrapped.value, undefined);
+
+                test.done();
+        },
+        'textarea value': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var textarea = doc.shorthand('textarea');
+                var div = doc.shorthand('div');
+                var wrapped = textarea();
+
+                test.strictEqual(wrapped.textContent, '');
+                test.strictEqual(wrapped.value, '');
+                wrapped.value = 'waarde';
+                test.strictEqual(wrapped.value, 'waarde');
+                test.strictEqual(wrapped.textContent, '');
+
+                wrapped = textarea('', 'initieel');
+                test.strictEqual(wrapped.value, 'initieel');
+                wrapped.value = 'waarde';
+                test.strictEqual(wrapped.value, 'waarde');
+                test.strictEqual(wrapped.textContent, 'initieel');
+
+                wrapped = textarea('', 'initieel');
+                test.strictEqual(wrapped.value, 'initieel');
+                test.strictEqual(wrapped.textContent, 'initieel');
+                wrapped.textContent = 'content waarde';
+                test.strictEqual(wrapped.value, 'content waarde');
+                test.strictEqual(wrapped.textContent, 'content waarde');
+                wrapped.value = 'idl waarde';
+                test.strictEqual(wrapped.textContent, 'content waarde');
+                wrapped.textContent = 'andere attr waarde';
+                test.strictEqual(wrapped.value, 'idl waarde');
+                test.strictEqual(wrapped.textContent, 'andere attr waarde');
 
                 wrapped = div();
                 test.strictEqual(wrapped.value, undefined);
