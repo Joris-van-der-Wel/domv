@@ -54,6 +54,7 @@ module.exports = {
         },
         'isSupported()': function(test)
         {
+                test.throws(function(){ domv.isSupported(); }, domv.Exception);
                 test.ok(domv.isSupported(this.document, false));
                 test.ok(domv.isParseHTMLDocumentSupported());
                 test.ok(domv.isSupported(this.document, true));
@@ -215,8 +216,8 @@ module.exports = {
         {
                 var wrapped;
 
-                test.throws(function(){ domv.create(); });
-                test.throws(function(){ domv.create(this.document); });
+                test.throws(function(){ domv.create(); }, domv.Exception);
+                test.throws(function(){ domv.create(this.document);}.bind(this), domv.Exception);
 
                 wrapped = domv.create(this.document, 'div');
                 test.ok(wrapped.isDOMVComponent);
@@ -453,6 +454,12 @@ module.exports = {
                 test.strictEqual(domv.cssStringEscape('foo"bar', true), '"foo\\"bar"');
                 test.strictEqual(domv.cssStringEscape('foo\\bar', true), '"foo\\\\bar"');
                 test.strictEqual(domv.cssStringEscape('foo"bar\nhmm\rbla', true), '"foo\\"bar\\a hmm\\d bla"');
+                test.done();
+        },
+        'shorthand()': function(test)
+        {
+                test.throws(function(){ domv.shorthand(); }, domv.Exception);
+                // the rest is tested in Component.js
                 test.done();
         }
 };

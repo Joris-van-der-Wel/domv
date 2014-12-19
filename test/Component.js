@@ -1155,6 +1155,21 @@ module.exports = {
 
                 test.done();
         },
+        'event methods invalid arguments': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var wrapped = doc.create('div');
+
+                test.throws(function() { wrapped.on(); }, domv.Exception);
+                test.throws(function() { wrapped.on('foo'); }, domv.Exception);
+                test.throws(function() { wrapped.on('foo', 'not a function'); }, domv.Exception);
+                test.throws(function() { wrapped.removeListener(); }, domv.Exception);
+                test.throws(function() { wrapped.removeListener('foo'); }, domv.Exception);
+                test.throws(function() { wrapped.removeListener('foo', 'not a function'); }, domv.Exception);
+                test.throws(function() { wrapped.emit(); }, domv.Exception);
+
+                test.done();
+        },
         'DOM Event capture phase': function(test)
         {
                 var doc = domv.wrap(this.document);
