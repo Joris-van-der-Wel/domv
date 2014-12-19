@@ -461,5 +461,27 @@ module.exports = {
                 test.throws(function(){ domv.shorthand(); }, domv.Exception);
                 // the rest is tested in Component.js
                 test.done();
+        },
+        'isLeftMouseButton()': function(test)
+        {
+                test.throws(function(){ domv.isLeftMouseButton(); }, domv.Exception);
+
+                test.ok(domv.isLeftMouseButton({
+                        button: 0 // left
+                }));
+
+                test.ok(! domv.isLeftMouseButton({
+                        button: 2 // right
+                }));
+
+                test.ok(domv.isLeftMouseButton({
+                        buttons: 1 | 2 // left and right
+                }));
+
+                test.ok(! domv.isLeftMouseButton({
+                        buttons: 2 // right only
+                }));
+
+                test.done();
         }
 };
