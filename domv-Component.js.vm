@@ -1,0 +1,30 @@
+'use strict';
+var domv = require('domv');
+
+## This declaration is used by the npm stylerefs module
+//require('static-reference')('./style/${NAME}.less');
+
+function ${NAME}(node)
+{
+        domv.Component.call(this, node, 'div');
+
+        ## Creation constructor
+        if (this.isCreationConstructor(node))
+        {
+                //var div = this.shorthand('div');
+
+                this.cls('${NAME}');
+
+        }
+        ## Wrapping constructor
+        else
+        {
+                this.assertHasClass('${NAME}');
+
+        }
+}
+
+module.exports = ${NAME};
+## npm install inherits --save
+require('inherits')(${NAME}, domv.Component);
+
