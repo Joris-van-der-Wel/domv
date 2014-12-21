@@ -676,14 +676,19 @@ convenient when subclassing Component because it lets you treat subclasses and s
 
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Example**
+```js
 new Component(document.createElement('p')); // wraps a "p" element
+```
 
 **Example**
+```js
 new Component(document); // Creates an empty "div" element as a default
+```
 
 **Example**
-new Component(document, true); // Wraps the Document Node instead of creating
-        an empty "div"
+```js
+new Component(document, true); // Wraps the Document Node instead of creating an empty "div"
+```
 
 <a name="module_domv/lib/Component#document"></a>
 ###domv/lib/Component.document
@@ -739,7 +744,9 @@ The index of the outerNode in the "children" attribute of the parentNode.
 
 **Type**: `int`
 **Example**
+```js
 myParent.children[3].childrenIndex === 3
+```
 
 <a name="module_domv/lib/Component#childNodes"></a>
 ###domv/lib/Component.childNodes
@@ -753,7 +760,9 @@ The index of the outerNode in the "childNodes" attribute of the parentNode.
 
 **Type**: `int`
 **Example**
+```js
 myParent.childNodes[3].childNodesIndex === 3
+```
 
 <a name="module_domv/lib/Component#isEmpty"></a>
 ###domv/lib/Component.isEmpty
@@ -992,11 +1001,13 @@ Creates a new wrapped TextNode.
 
 **Returns**: [domv/lib/Component](#module_domv/lib/Component)
 **Example**
+```js
 var wrappedDiv = require('domv').create(document, 'div');
 var wrappedText = require('domv').text(document, 'Hi!');
 wrappedDiv.appendChild(wrappedText);
 console.log(wrappedDiv.outerNode.outerHTML);
 // <div>Hi!</div>
+```
 
 <a name="module_domv/lib/Component#shorthand"></a>
 ###domv/lib/Component.shorthand([tagName], ...initialAttributes)
@@ -1013,9 +1024,11 @@ new elements (wrapped) including attributes.
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Returns**: [domv/lib/CreateShortHand](#domv/lib/CreateShortHand)
 **Example**
+```js
 var a = this.shorthand('a');
 var link = a('readmore', {'href': something()}, 'Click here to readmore!');
 // <a class="readmore" href="#example">Click here to readmore!</a>
+```
 
 <a name="module_domv/lib/Component#textShorthand"></a>
 ###domv/lib/Component.textShorthand()
@@ -1024,9 +1037,11 @@ new text nodes (wrapped).
 
 **Returns**: `function`
 **Example**
+```js
 var text = this.textShorthand();
 var wraped = text('bla');
 wrapped = text('foo', 'bar'); // 'foo bar'
+```
 
 <a name="module_domv/lib/Component#appendChild"></a>
 ###domv/lib/Component.appendChild(...node_)
@@ -1223,11 +1238,13 @@ If not set, the children of our inner node are added to the parent of the outer 
 
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Example**
+```js
 var container = document.createElement('div');
 container.innerHTML = '<section>abc<p>def<strong>ghj</strong>klm</p>nop</section>';
 domv.wrap(container).selector('p').swap(document.createElement('h1'));
 console.log(container.innerHTML);
 //  '<section>abc<h1>def<strong>ghj</strong>klm</h1>nop</section>'
+```
 
 <a name="module_domv/lib/Component#isAllWhiteSpace"></a>
 ###domv/lib/Component.isAllWhiteSpace([checkChildElements])
@@ -1316,7 +1333,9 @@ Construct a simple domv.Exception
 
 **Extends**: `Error`
 **Example**
+```js
 new domv.Exception(new Error('Hrm'));
+```
 
 <a name="module_domv/lib/Exception#isDOMVException"></a>
 ###const: domv/lib/Exception.isDOMVException
@@ -1428,14 +1447,20 @@ or to wrap an existing html document into this class.
 **Extends**: `module:domv/lib/Component`
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Example**
+```js
 new HtmlDocument() // create a new Document Node, including html (as its child), head, body.
+```
 
 **Example**
+```js
 new HtmlDocument(document); // Create html, head and body elements using the given Document Node,
         but do not modify the given Document node (constructors should be side-effect free).
+```
 
 **Example**
+```js
 new HtmlDocument(document.documentElement); // Associate an existing html document
+```
 
 <a name="module_domv/lib/HtmlDocument#head"></a>
 ###domv/lib/HtmlDocument.head
@@ -1525,7 +1550,9 @@ The index of the outerNode in the "children" attribute of the parentNode.
 
 **Type**: `int`
 **Example**
+```js
 myParent.children[3].childrenIndex === 3
+```
 
 <a name="module_domv/lib/HtmlDocument#childNodes"></a>
 ###domv/lib/HtmlDocument.childNodes
@@ -1539,7 +1566,9 @@ The index of the outerNode in the "childNodes" attribute of the parentNode.
 
 **Type**: `int`
 **Example**
+```js
 myParent.childNodes[3].childNodesIndex === 3
+```
 
 <a name="module_domv/lib/HtmlDocument#isEmpty"></a>
 ###domv/lib/HtmlDocument.isEmpty
@@ -1675,8 +1704,10 @@ The data can be retrieved using getJSONData with the same identifier;
 
 **Returns**: [domv/lib/Component](#module_domv/lib/Component) - The newly created "script" node
 **Example**
+```js
 myDoc.addJSONData('foo', {'abc': 'def'});
 // <script type="application/json" data-identifier="foo">{"abc":"def"};</script>
+```
 
 <a name="module_domv/lib/HtmlDocument#getJSONData"></a>
 ###domv/lib/HtmlDocument.getJSONData(identifier)
@@ -1824,11 +1855,13 @@ Creates a new wrapped TextNode.
 
 **Returns**: [domv/lib/Component](#module_domv/lib/Component)
 **Example**
+```js
 var wrappedDiv = require('domv').create(document, 'div');
 var wrappedText = require('domv').text(document, 'Hi!');
 wrappedDiv.appendChild(wrappedText);
 console.log(wrappedDiv.outerNode.outerHTML);
 // <div>Hi!</div>
+```
 
 <a name="module_domv/lib/HtmlDocument#shorthand"></a>
 ###domv/lib/HtmlDocument.shorthand([tagName], ...initialAttributes)
@@ -1845,9 +1878,11 @@ new elements (wrapped) including attributes.
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Returns**: [domv/lib/CreateShortHand](#domv/lib/CreateShortHand)
 **Example**
+```js
 var a = this.shorthand('a');
 var link = a('readmore', {'href': something()}, 'Click here to readmore!');
 // <a class="readmore" href="#example">Click here to readmore!</a>
+```
 
 <a name="module_domv/lib/HtmlDocument#textShorthand"></a>
 ###domv/lib/HtmlDocument.textShorthand()
@@ -1856,9 +1891,11 @@ new text nodes (wrapped).
 
 **Returns**: `function`
 **Example**
+```js
 var text = this.textShorthand();
 var wraped = text('bla');
 wrapped = text('foo', 'bar'); // 'foo bar'
+```
 
 <a name="module_domv/lib/HtmlDocument#appendChild"></a>
 ###domv/lib/HtmlDocument.appendChild(...node_)
@@ -2055,11 +2092,13 @@ If not set, the children of our inner node are added to the parent of the outer 
 
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Example**
+```js
 var container = document.createElement('div');
 container.innerHTML = '<section>abc<p>def<strong>ghj</strong>klm</p>nop</section>';
 domv.wrap(container).selector('p').swap(document.createElement('h1'));
 console.log(container.innerHTML);
 //  '<section>abc<h1>def<strong>ghj</strong>klm</h1>nop</section>'
+```
 
 <a name="module_domv/lib/HtmlDocument#isAllWhiteSpace"></a>
 ###domv/lib/HtmlDocument.isAllWhiteSpace([checkChildElements])
@@ -2207,10 +2246,14 @@ Passing a falsy value will also return a falsy value instead of a Component
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Returns**: [domv/lib/Component](#module_domv/lib/Component) | [Array.&lt;domv/lib/Component&gt;](#module_domv/lib/Component) - Only null if "node" was also null
 **Example**
+```js
 domv.wrap(document.body).prependChild(...);
+```
 
 **Example**
+```js
 domv.wrap(someNode, MyPictureGallery).addPicture(...);
+```
 
 <a name="module_domv.unlive"></a>
 ##domv.unlive(nodeList)
@@ -2224,7 +2267,9 @@ The actual content of the array is identical (the nodes are <strong>not</strong>
 
 **Returns**: `Array`
 **Example**
+```js
 var list = require('domv').unlive(document.getElementsByTagName('*'));
+```
 
 <a name="module_domv.create"></a>
 ##domv.create(document_, nodeName, className, ...content)
@@ -2246,9 +2291,11 @@ Convenient function to create a wrapped Node including its attributes (for eleme
 **Type**: [domv/lib/Exception](#module_domv/lib/Exception)
 **Returns**: [domv/lib/Component](#module_domv/lib/Component)
 **Example**
+```js
 var wrappedDiv = require('domv').create(document, 'div', 'myDiv', 'This is my div!', {'data-test': 'foo'});
 console.log(wrappedDiv.outerNode.outerHTML);
 // <div class="myDiv" data-test="foo">This is my div!</div>
+```
 
 <a name="module_domv.shorthand"></a>
 ##domv.shorthand(document_, [tagName_], ...initialAttributes)
@@ -2266,9 +2313,11 @@ a wrapped Element including its attributes.
 
 **Returns**: [domv/lib/CreateShortHand](#domv/lib/CreateShortHand)
 **Example**
+```js
 var a = require('domv').shorthand(document, 'a');
 var link = a('readmore', {'href': something()}, 'Click here to readmore!');
 // <a class="readmore" href="#example">Click here to readmore!</a>
+```
 
 <a name="module_domv.text"></a>
 ##domv.text(document_, ...text)
@@ -2281,11 +2330,13 @@ Creates a new wrapped TextNode.
 
 **Returns**: [domv/lib/Component](#module_domv/lib/Component)
 **Example**
+```js
 var wrappedDiv = require('domv').create(document, 'div');
 var wrappedText = require('domv').text(document, 'Hi!');
 wrappedDiv.appendChild(wrappedText);
 console.log(wrappedDiv.outerNode.outerHTML);
 // <div>Hi!</div>
+```
 
 <a name="module_domv.createHtmlDomDocument"></a>
 ##domv.createHtmlDomDocument([minimal])
@@ -2333,7 +2384,9 @@ Escape a string so that you can use it as a CSS String, such as a selector.
 
 **Returns**: `String`
 **Example**
+```js
 myComponent.selectorAll('a[href=' + domv.cssStringEscape(somevar) + ']');
+```
 
 <a name="module_domv.isLeftMouseButton"></a>
 ##domv.isLeftMouseButton(event)
