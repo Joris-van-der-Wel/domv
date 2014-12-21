@@ -4,7 +4,7 @@ Create views as components using DOM. Run the same code on the browser and on th
 
 1. [Introduction](#introduction)
 2. [For servers](#for-servers)
-3. [For clients](#for-clients)
+3. [For browsers](#for-browsers)
 4. [Tutorial](#tutorial)
   1. [Creating a Component](#creating-a-component)
   2. [Subclassing](#subclassing)
