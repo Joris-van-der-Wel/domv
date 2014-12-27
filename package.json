@@ -49,7 +49,7 @@
     "pretest": "browserify -d -r ./test/browser-test.js:domv-browser-test > test/out/browser-test-bundle.js",
     "test": "istanbul cover ./node_modules/nodeunit/bin/nodeunit test/domv.js test/Component.js test/HtmlDocument.js && jshint lib/domv.js lib/Component.js lib/Exception.js lib/HtmlDocument.js lib/ClassList.js  test/domv.js test/Component.js test/HtmlDocument.js test/browser-test.js",
     "posttest": "echo Open test/browser-test.html to run the test suite in a web browser.",
-    "documentation": "jsdoc -r ./lib -d ./jsdoc --pedantic --verbose && jsdoc2md --src lib/* > ./jsdoc/api.md",
+    "documentation": "jsdoc -d ./jsdoc --pedantic --verbose lib/domv.js lib/Component.js lib/Exception.js lib/HtmlDocument.js && jsdoc2md --src lib/domv.js lib/Component.js lib/Exception.js lib/HtmlDocument.js > ./jsdoc/api.md",
     "bundle": "browserify --outfile build/domv.js --standalone domv ./lib/domv.js"
   },
   "jshintConfig": {
