@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "inherits": "^2.0.1",
-    "jsdom": "^1.5.0"
+    "jsdom": "^2.0.0"
   },
   "devDependencies": {
     "browserify": "^7.0.1",
