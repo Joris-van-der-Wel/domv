@@ -1196,22 +1196,22 @@ module.exports = {
                 var called = 0;
                 var myThisObject = {foo: 'bar'};
 
-                function customtest(e)
+                var customtest = function(e)
                 {
                         test.ok(this === wrapped); // default this object
                         test.ok(e.cancelable);
                         test.ok(e.bubbles);
                         ++called;
-                }
+                };
 
-                function customtest2(e)
+                var customtest2 = function(e)
                 {
                         test.ok(this === myThisObject);
                         test.strictEqual(e.abc, 'zyx');
                         test.ok(!e.cancelable);
                         test.ok(!e.bubbles);
                         ++called;
-                }
+                };
 
                 wrapped.on('customtest', customtest, false); // bubble phase
                 wrapped.on('customtest2', customtest2, true, myThisObject); // capture phase
@@ -1340,7 +1340,6 @@ module.exports = {
                 var parent = div();
                 var child = div();
                 var progress;
-                var event;
 
                 // disconnected meaning the nodes are not reachable from the Document Node
 

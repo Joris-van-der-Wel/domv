@@ -464,6 +464,7 @@ module.exports = {
         },
         'isLeftMouseButton()': function(test)
         {
+                /*jshint -W016 */
                 test.throws(function(){ domv.isLeftMouseButton(); }, domv.Exception);
 
                 test.ok(domv.isLeftMouseButton({

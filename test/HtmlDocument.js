@@ -222,7 +222,7 @@ module.exports = {
         },
         'addJSONData() & getJSONData() after wrapping': function(test)
         {
-                var htmldoc, script;
+                var htmldoc;
                 htmldoc = new HtmlDocument(this.document);
                 htmldoc.addJSONData('foo', {'abc': 'def'});
                 // missing identifier:
