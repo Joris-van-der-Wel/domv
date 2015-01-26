@@ -45,7 +45,7 @@ module.exports = {
         {
                 // nwmatcher which is used in jsdom for querySelector,
                 // requires a documentElement to be present!
-                this.document = global.document ? global.document : require('jsdom').jsdom('<!DOCTYPE html><html/>');
+                this.document = global.document ? global.document : require('jsdom').jsdom('<!DOCTYPE html><html><head/><body/></html>');
                 callback();
         },
         tearDown: function (callback)
@@ -1853,6 +1853,48 @@ module.exports = {
                 wrapped = div();
                 wrapped.outerNode = null;
                 test.strictEqual(wrapped.childrenIndex, -1);
+
+                test.done();
+        },
+        'focus': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var body = domv.wrap(this.document.body);
+                var parent;
+                var input;
+
+                body.appendChild(
+                        parent = doc.create('div',
+                                input = doc.create('input', {type: 'text'})
+                        )
+                );
+
+                test.strictEqual(input.focus, false);
+                test.strictEqual(parent.focus, false);
+                test.strictEqual(input.hasFocus, false);
+                test.strictEqual(parent.hasFocus, false);
+
+                input.focus = true;
+
+                test.strictEqual(input.focus, true);
+                test.strictEqual(parent.focus, false);
+                test.strictEqual(input.hasFocus, true);
+                test.strictEqual(parent.hasFocus, true);
+
+                parent.innerNode = input;
+                test.strictEqual(parent.focus, true);
+                test.strictEqual(parent.hasFocus, true);
+
+                input.focus = false;
+                test.strictEqual(input.focus, false);
+                test.strictEqual(parent.focus, false);
+                test.strictEqual(input.hasFocus, false);
+                test.strictEqual(parent.hasFocus, false);
+
+                var text = doc.create('#text', 'foo');
+                test.throws(function() { text.focus = true; }, domv.Exception);
+
+                parent.removeNode();
 
                 test.done();
         }
