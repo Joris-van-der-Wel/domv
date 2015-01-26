@@ -606,7 +606,6 @@ module.exports = {
                 var doc = domv.wrap(this.document);
                 var div = doc.shorthand('div');
                 var wrapped = div();
-                var obj;
                 var text = domv.text(this.document, 'some text bla');
 
                 wrapped.attr('abc', '123');
@@ -628,14 +627,7 @@ module.exports = {
                 test.strictEqual(null, wrapped.getAttr('ghj'));
 
                 wrapped.attr('ghj', {'a': [1,'2', true],'abcdef': 'qwerty'});
-                test.strictEqual('{"a":[1,"2",true],"abcdef":"qwerty"}', wrapped.getAttr('ghj'));
-                obj = wrapped.getAttr('ghj', true);
-                test.ok(obj &&
-                        obj.a &&
-                        obj.a[0] === 1 &&
-                        obj.a[1] === '2' &&
-                        obj.a[2] === true &&
-                        obj.abcdef === 'qwerty');
+                test.strictEqual('[object Object]', wrapped.getAttr('ghj'));
 
                 test.throws(function(){ text.attr('abc', 'def'); }, domv.Exception);
                 test.ok(text.getAttr('something') === null);
