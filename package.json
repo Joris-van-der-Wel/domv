@@ -10,6 +10,7 @@
     "dom",
     "domv",
     "html",
+    "isomorphic",
     "jsdom",
     "template",
     "w3c",
