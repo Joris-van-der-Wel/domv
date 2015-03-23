@@ -36,8 +36,10 @@
   },
   "dependencies": {
     "inherits": "^2.0.1",
-    "jsdom": "^3.1.0",
     "throwable": "^1.0.0"
+  },
+  "optionalDependencies": {
+    "jsdom": "^3.1.0"
   },
   "devDependencies": {
     "browserify": "^7.0.1",
