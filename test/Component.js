@@ -1004,6 +1004,7 @@ module.exports = {
                 );
 
                 test.strictEqual(2, def.children.length);
+                test.strictEqual(2, def.childElementCount);
 
                 test.ok(def.children[1].hasClass('tsr'));
 
@@ -1065,7 +1066,9 @@ module.exports = {
                 test.doesNotThrow(function(){ text.swapNode(div(div())); });
                 test.doesNotThrow(function(){ comp.swapNode(div(div())); });
                 test.strictEqual(text.children.length, 0);
+                test.strictEqual(text.childElementCount, 0);
                 test.strictEqual(comp.children.length, 0);
+                test.strictEqual(comp.childElementCount, 0);
                 test.strictEqual(text.childNodes.length, 0);
                 test.strictEqual(comp.childNodes.length, 0);
                 test.strictEqual(text.firstChild, null);
