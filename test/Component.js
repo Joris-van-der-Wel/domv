@@ -1009,6 +1009,8 @@ module.exports = {
                 test.ok(def.children[1].hasClass('tsr'));
 
                 test.strictEqual(5, def.childNodes.length);
+                test.strictEqual(5, def.childNodeCount);
+
                 test.strictEqual('text1', def.childNodes[0].textContent);
                 test.ok(def.childNodes[3].hasClass('tsr'));
 
@@ -1030,6 +1032,7 @@ module.exports = {
                 wrapped.textContent = 'Hello!';
                 test.strictEqual('Hello!', wrapped.textContent);
                 test.strictEqual(1, wrapped.childNodes.length);
+                test.strictEqual(1, wrapped.childNodeCount);
                 test.strictEqual(domv.NodeType.TEXT, wrapped.firstChild.outerNodeType);
                 test.strictEqual(domv.NodeType.TEXT, wrapped.firstChild.innerNodeType);
                 test.strictEqual('#text', wrapped.firstChild.outerNodeName);
@@ -1070,7 +1073,9 @@ module.exports = {
                 test.strictEqual(comp.children.length, 0);
                 test.strictEqual(comp.childElementCount, 0);
                 test.strictEqual(text.childNodes.length, 0);
+                test.strictEqual(text.childNodeCount, 0);
                 test.strictEqual(comp.childNodes.length, 0);
+                test.strictEqual(comp.childNodeCount, 0);
                 test.strictEqual(text.firstChild, null);
                 test.strictEqual(comp.firstChild, null);
                 test.strictEqual(text.lastChild, null);
