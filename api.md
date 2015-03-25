@@ -405,8 +405,10 @@ This is the super class for your components.
     * [.innerNodeWrapped](#module_domv/lib/Component--Component#innerNodeWrapped) : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.style](#module_domv/lib/Component--Component#style) : <code>[CSSStyleDeclaration](#external_CSSStyleDeclaration)</code>
     * [.children](#module_domv/lib/Component--Component#children) : <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+    * [.childElementCount](#module_domv/lib/Component--Component#childElementCount) : <code>Number</code>
     * [.childrenIndex](#module_domv/lib/Component--Component#childrenIndex) : <code>int</code>
     * [.childNodes](#module_domv/lib/Component--Component#childNodes) : <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+    * [.childNodeCount](#module_domv/lib/Component--Component#childNodeCount) : <code>Number</code>
     * [.childNodesIndex](#module_domv/lib/Component--Component#childNodesIndex) : <code>int</code>
     * [.isEmpty](#module_domv/lib/Component--Component#isEmpty) : <code>boolean</code>
     * [.firstChild](#module_domv/lib/Component--Component#firstChild) : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
@@ -562,6 +564,11 @@ The (wrapped) child elements of the inner node.
 The returned list is not live.
 
 **Scope**: instance property of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
+<a name="module_domv/lib/Component--Component#childElementCount"></a>
+#### component.childElementCount : <code>Number</code>
+The number of immediate child elements that belong to the inner node.
+
+**Scope**: instance property of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
 <a name="module_domv/lib/Component--Component#childrenIndex"></a>
 #### component.childrenIndex : <code>int</code>
 The index of the outerNode in the "children" attribute of the parentNode.
@@ -574,6 +581,11 @@ myParent.children[3].childrenIndex === 3
 #### component.childNodes : <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
 The (wrapped) child nodes of the inner node.
 The returned list is not live.
+
+**Scope**: instance property of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
+<a name="module_domv/lib/Component--Component#childNodeCount"></a>
+#### component.childNodeCount : <code>Number</code>
+The number of immediate child nodes that belong to the inner node.
 
 **Scope**: instance property of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
 <a name="module_domv/lib/Component--Component#childNodesIndex"></a>
@@ -1213,7 +1225,6 @@ The base class for any exception that originates from this library
 * [domv/lib/Exception](#module_domv/lib/Exception)
   * [Exception](#exp_module_domv/lib/Exception--Exception) ⇐ <code>Error</code> ⏏
     * [new Exception(wrapped)](#new_module_domv/lib/Exception--Exception_new)
-    * [.isDOMVException](#module_domv/lib/Exception--Exception#isDOMVException) : <code>boolean</code>
 
 <a name="exp_module_domv/lib/Exception--Exception"></a>
 ### Exception ⇐ <code>Error</code> ⏏
@@ -1231,14 +1242,6 @@ Construct a simple domv.Exception
 **Example**  
 new domv.Exception(new Error('Hrm'));
 
-<a name="module_domv/lib/Exception--Exception#isDOMVException"></a>
-#### exception.isDOMVException : <code>boolean</code>
-Always true for instances of this class.
-<p>Use this attribute to determine if an object is a Component.
-This would let you create an object compatible with this API,
-without having to use Component as a super type.</p>
-
-**Scope**: instance constant of <code>[Exception](#exp_module_domv/lib/Exception--Exception)</code>  
 <a name="module_domv/lib/HtmlDocument"></a>
 ## domv/lib/HtmlDocument
 Represents a full document in html, including the root node html.
@@ -1261,8 +1264,10 @@ Represents a full document in html, including the root node html.
     * [.innerNodeWrapped](#module_domv/lib/Component--Component#innerNodeWrapped) : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.style](#module_domv/lib/Component--Component#style) : <code>[CSSStyleDeclaration](#external_CSSStyleDeclaration)</code>
     * [.children](#module_domv/lib/Component--Component#children) : <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+    * [.childElementCount](#module_domv/lib/Component--Component#childElementCount) : <code>Number</code>
     * [.childrenIndex](#module_domv/lib/Component--Component#childrenIndex) : <code>int</code>
     * [.childNodes](#module_domv/lib/Component--Component#childNodes) : <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+    * [.childNodeCount](#module_domv/lib/Component--Component#childNodeCount) : <code>Number</code>
     * [.childNodesIndex](#module_domv/lib/Component--Component#childNodesIndex) : <code>int</code>
     * [.isEmpty](#module_domv/lib/Component--Component#isEmpty) : <code>boolean</code>
     * [.firstChild](#module_domv/lib/Component--Component#firstChild) : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
