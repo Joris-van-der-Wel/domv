@@ -163,8 +163,8 @@ Convenient function to create a wrapped Node including its attributes (for eleme
 | --- | --- | --- |
 | document_ | <code>[Document](#external_Document)</code> |  |
 | nodeName | <code>string</code> |  |
-| className | <code>string</code> \| <code>[Node](#external_Node)</code> \| <code>[domv/lib/Component](#module_domv/lib/Component)</code> \| <code>Object.&lt;string, string&gt;</code> | <p>If a string is passed, and the nodeName represents an element tag, the string is set as the class attribute.         If not an element, the string is appended to the node data.</p>      <p>If a node or component is passed, it is simply appended.</p>      <p>If an object of key value pairs is passed, it sets those as attributes (see [attr](#module_domv/lib/Component--Component#attr)).</p> |
-| ...content | <code>string</code> \| <code>[Node](#external_Node)</code> \| <code>[domv/lib/Component](#module_domv/lib/Component)</code> \| <code>Object.&lt;string, string&gt;</code> | <p>If a string is passed, and the nodeName represents an element tag, the string is appended as a text node.         If not an element, the string is appended to the node data.</p>      <p>If a node or component is passed, it is simply appended.</p>      <p>If an object of key value pairs is passed, it sets those as attributes (see [attr](#module_domv/lib/Component--Component#attr)).</p> |
+| className | <code>string</code> \| <code>[Node](#external_Node)</code> \| <code>[domv/lib/Component](#module_domv/lib/Component)</code> \| <code>Object.&lt;string, string&gt;</code> | <p>If a string is passed, and the nodeName represents an element tag, the string is set as the class attribute.         If not an element, the string is appended to the node data.</p>      <p>Otherwise the argument is parsed using [parseShorthandArgument](#module_domv/lib/Component--Component#parseShorthandArgument)</p> |
+| ...content | <code>string</code> \| <code>[Node](#external_Node)</code> \| <code>[domv/lib/Component](#module_domv/lib/Component)</code> \| <code>Object.&lt;string, string&gt;</code> | Parsed using [parseShorthandArgument](#module_domv/lib/Component--Component#parseShorthandArgument) |
 
 **Example**  
 var wrappedDiv = require('domv').create(document, 'div', 'myDiv', 'This is my div!', {'data-test': 'foo'});
@@ -432,6 +432,7 @@ This is the super class for your components.
     * [.innerNodeName](#module_domv/lib/Component--Component#innerNodeName) : <code>string</code>
     * [.isDOMVComponent](#module_domv/lib/Component--Component#isDOMVComponent) : <code>boolean</code>
     * [.isCreationConstructor(node, [wrapDocument])](#module_domv/lib/Component--Component#isCreationConstructor) ⇒ <code>boolean</code>
+    * [.parseShorthandArgument(arg)](#module_domv/lib/Component--Component#parseShorthandArgument) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.on(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component#on) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.addListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component#addListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component#removeListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
@@ -722,12 +723,29 @@ without having to use Component as a super type.</p>
 <a name="module_domv/lib/Component--Component#isCreationConstructor"></a>
 #### component.isCreationConstructor(node, [wrapDocument]) ⇒ <code>boolean</code>
 **Scope**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
-**Returns**: <code>boolean</code> - If thee creation constructor should be used instead of the wrapping constructor.  
+**Returns**: <code>boolean</code> - If the creation constructor should be used instead of the wrapping constructor.  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
 | node | <code>[Node](#external_Node)</code> \| <code>[domv/lib/Component](#module_domv/lib/Component)</code> |  | A DOCUMENT_NODE will result in the creation constructor, any other node will result in the wrapping constructor. A falsy value will also result in the creation constructor and it used in Component subclasses that know how to create their own DOCUMENT_NODE (e.g. [domv/lib/HtmlDocument](#module_domv/lib/HtmlDocument). |
 | [wrapDocument] | <code>boolean</code> | <code>false</code> | <p>If false, passing a DOCUMENT_NODE as "node" will result in an empty tag being created instead of wrapping the DOCUMENT_NODE. This behaviour is more convenient when subclassing Component because it lets you treat subclasses and subsubclasses in the same way. <em>(e.g. the subclass Menu adds the class 'Menu' and common menu items. The subsubclass EventMenu adds the class 'EventMenu' and further event menu items.)</em></p> <p>If true, a document will always wrap.</p> |
+
+<a name="module_domv/lib/Component--Component#parseShorthandArgument"></a>
+#### component.parseShorthandArgument(arg) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+This method is used by domv.create() and Component.prototype.shorthand() to assign attributes
+and children to nodes with a shorthand syntax.
+<p>If arg is undefined or null, no action is taken.</p>
+<p>If arg is a string, the string is appened as a text node.</p>
+<p>If arg is an object, all key value pairs are set as attributes.</p>
+<p>Any DOM Node or domv Component is appended as a child.</p>
+<p>If arg is an array, parseShorthandArgument is called for each item.</p>
+
+**Scope**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
+**Returns**: <code>[Component](#exp_module_domv/lib/Component--Component)</code> - this  
+
+| Param | Type |
+| --- | --- |
+| arg | <code>string</code> \| <code>[Node](#external_Node)</code> \| <code>[domv/lib/Component](#module_domv/lib/Component)</code> \| <code>Object.&lt;string, string&gt;</code> | 
 
 <a name="module_domv/lib/Component--Component#on"></a>
 #### component.on(event, listener, [useCapture], [thisObject]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
@@ -1295,6 +1313,7 @@ Represents a full document in html, including the root node html.
     * [.addJSONData(identifier, data)](#module_domv/lib/HtmlDocument--HtmlDocument#addJSONData) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.getJSONData(identifier)](#module_domv/lib/HtmlDocument--HtmlDocument#getJSONData) ⇒ <code>\*</code>
     * [.isCreationConstructor(node, [wrapDocument])](#module_domv/lib/Component--Component#isCreationConstructor) ⇒ <code>boolean</code>
+    * [.parseShorthandArgument(arg)](#module_domv/lib/Component--Component#parseShorthandArgument) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.on(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component#on) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.addListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component#addListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component#removeListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
