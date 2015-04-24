@@ -1763,6 +1763,45 @@ module.exports = {
 
                 test.done();
         },
+        'input defaultValue': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var wrapped = doc.create('input', {type: 'text'});
+
+                wrapped.value = 'xyz';
+                test.strictEqual(wrapped.defaultValue, '');
+                wrapped.attr('value', 'foo');
+                test.strictEqual(wrapped.defaultValue, 'foo');
+                wrapped.defaultValue = 'bar';
+                test.strictEqual(wrapped.getAttr('value'), 'bar');
+                test.strictEqual(wrapped.defaultValue, 'bar');
+
+                test.done();
+        },
+        'select defaultValue': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var wrapped = doc.create('select',
+                        doc.create('option', {value: 'abc'}),
+                        doc.create('option', {value: 'def'}),
+                        doc.create('option', {value: 'ghj'}),
+                        doc.create('option', {value: 'klm'})
+                );
+
+                wrapped.value = 'abc';
+                test.strictEqual(wrapped.defaultValue, '');
+                wrapped.children[1].attr('selected', true);
+                wrapped.children[2].attr('selected', true);
+                test.strictEqual(wrapped.defaultValue, 'def');
+                wrapped.defaultValue = 'klm';
+                test.strictEqual(wrapped.defaultValue, 'klm');
+                test.strictEqual(wrapped.children[0].getAttr('selected'), null);
+                test.strictEqual(wrapped.children[1].getAttr('selected'), null);
+                test.strictEqual(wrapped.children[2].getAttr('selected'), null);
+                test.notEqual(wrapped.children[3].getAttr('selected'), null);
+
+                test.done();
+        },
         'Firebug hack': function(test)
         {
                 var divNode = this.document.createElement('div');
