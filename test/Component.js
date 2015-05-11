@@ -696,9 +696,11 @@ module.exports = {
 
                 test.strictEqual(null, wrapped.selector('> .wvu'));
                 test.ok(wrapped.selector('> .abc'));
+                test.ok(wrapped.selector(['> .wvu', '> .abc']));
 
                 test.strictEqual(0, wrapped.selectorAll('> .wvu').length);
                 test.strictEqual(1, wrapped.selectorAll('> .abc').length);
+                test.strictEqual(1, wrapped.selectorAll(['> .wvu', '> .abc']).length);
 
                 test.ok(text.selector('something') === null);
                 test.strictEqual(0, text.selectorAll('something').length);
