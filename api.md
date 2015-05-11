@@ -422,6 +422,7 @@ This is the super class for your components.
     * [.parentNode](#module_domv/lib/Component--Component#parentNode) : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.textContent](#module_domv/lib/Component--Component#textContent) : <code>string</code>
     * [.value](#module_domv/lib/Component--Component#value) : <code>string</code>
+    * [.value](#module_domv/lib/Component--Component#value) : <code>string</code>
     * [.checked](#module_domv/lib/Component--Component#checked) : <code>boolean</code>
     * [.selected](#module_domv/lib/Component--Component#selected) : <code>boolean</code>
     * [.focus](#module_domv/lib/Component--Component#focus) : <code>boolean</code>
@@ -459,9 +460,9 @@ This is the super class for your components.
     * [.toggleClass(cls, force)](#module_domv/lib/Component--Component#toggleClass) ⇒ <code>boolean</code>
     * [.attr(name, value)](#module_domv/lib/Component--Component#attr) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.getAttr(name)](#module_domv/lib/Component--Component#getAttr) ⇒ <code>string</code>
-    * [.selector(selector, [componentConstructor])](#module_domv/lib/Component--Component#selector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-    * [.assertSelector(selector, [componentConstructor])](#module_domv/lib/Component--Component#assertSelector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-    * [.selectorAll(selector, [componentConstructor])](#module_domv/lib/Component--Component#selectorAll) ⇒ <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+    * [.selector(selector, [ComponentConstructor])](#module_domv/lib/Component--Component#selector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+    * [.assertSelector(selector, [ComponentConstructor])](#module_domv/lib/Component--Component#assertSelector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+    * [.selectorAll(selector, [ComponentConstructor])](#module_domv/lib/Component--Component#selectorAll) ⇒ <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
     * [.adoptAllAttributes(from)](#module_domv/lib/Component--Component#adoptAllAttributes)
     * [.swapNode(node)](#module_domv/lib/Component--Component#swapNode)
     * [.isAllWhiteSpace([checkChildElements])](#module_domv/lib/Component--Component#isAllWhiteSpace) ⇒ <code>boolean</code>
@@ -662,6 +663,12 @@ and replaces them with a single text node with the given value.
 #### component.value : <code>string</code>
 The value of this node. For most nodes this property is undefined, for input fields this
 contains the current value. (The attribute "value" does not change by user input).
+
+**Scope**: instance property of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
+<a name="module_domv/lib/Component--Component#value"></a>
+#### component.value : <code>string</code>
+The default value of this node. For most nodes this property is undefined, for input fields this
+contains the default value. (This is identical to the "value" attribute).
 
 **Scope**: instance property of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
 <a name="module_domv/lib/Component--Component#checked"></a>
@@ -1101,20 +1108,20 @@ Get the value of a single attribute of the outer node.
 | name | <code>string</code> | The attribute name to get. |
 
 <a name="module_domv/lib/Component--Component#selector"></a>
-#### component.selector(selector, [componentConstructor]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-Returns the first element, or null, that matches the specified single selector.
+#### component.selector(selector, [ComponentConstructor]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+Returns the first element, or null, that matches the specified selector(s).
 (applied on the inner node)
 
 **Scope**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| selector | <code>string</code> |  |  |
-| [componentConstructor] | <code>function</code> | <code>module:domv/lib/Component</code> | The constructor to         use to wrap the result Node, by default the Node is wrapped in a plain Component,         but it is also possible to specify your own constructor. |
+| selector | <code>string</code> \| <code>Array.&lt;string&gt;</code> |  | A single selector (without a group) or an array of selectors for a selector group |
+| [ComponentConstructor] | <code>function</code> | <code>module:domv/lib/Component</code> | The constructor to         use to wrap the result Node, by default the Node is wrapped in a plain Component,         but it is also possible to specify your own constructor. |
 
 <a name="module_domv/lib/Component--Component#assertSelector"></a>
-#### component.assertSelector(selector, [componentConstructor]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-Returns the first element that matches the specified single selector.
+#### component.assertSelector(selector, [ComponentConstructor]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+Returns the first element that matches the specified selector(s).
 (applied on the inner node)
 
 **Scope**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
@@ -1125,20 +1132,20 @@ Returns the first element that matches the specified single selector.
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| selector | <code>string</code> |  |  |
-| [componentConstructor] | <code>function</code> | <code>module:domv/lib/Component</code> | The constructor to         use to wrap the result Node, by default the Node is wrapped in a plain Component,         but it is also possible to specify your own constructor. |
+| selector | <code>string</code> \| <code>Array.&lt;string&gt;</code> |  | A single selector (without a group) or an array of selectors for a selector group |
+| [ComponentConstructor] | <code>function</code> | <code>module:domv/lib/Component</code> | The constructor to         use to wrap the result Node, by default the Node is wrapped in a plain Component,         but it is also possible to specify your own constructor. |
 
 <a name="module_domv/lib/Component--Component#selectorAll"></a>
-#### component.selectorAll(selector, [componentConstructor]) ⇒ <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
-Returns a list of all elements that matches the specified single selector.
+#### component.selectorAll(selector, [ComponentConstructor]) ⇒ <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+Returns a list of all elements that matches the specified selector(s).
 (applied on the inner node)
 
 **Scope**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
-| selector | <code>string</code> |  |  |
-| [componentConstructor] | <code>function</code> | <code>module:domv/lib/Component</code> | The constructor to         use to wrap the resulting Nodes, by default the Nodes are wrapped in a plain Component,         but it is also possible to specify your own constructor. |
+| selector | <code>string</code> \| <code>Array.&lt;string&gt;</code> |  | A single selector (without a group) or an array of selectors for a selector group |
+| [ComponentConstructor] | <code>function</code> | <code>module:domv/lib/Component</code> | The constructor to         use to wrap the resulting Nodes, by default the Nodes are wrapped in a plain Component,         but it is also possible to specify your own constructor. |
 
 <a name="module_domv/lib/Component--Component#adoptAllAttributes"></a>
 #### component.adoptAllAttributes(from)
@@ -1340,9 +1347,9 @@ Represents a full document in html, including the root node html.
     * [.toggleClass(cls, force)](#module_domv/lib/Component--Component#toggleClass) ⇒ <code>boolean</code>
     * [.attr(name, value)](#module_domv/lib/Component--Component#attr) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.getAttr(name)](#module_domv/lib/Component--Component#getAttr) ⇒ <code>string</code>
-    * [.selector(selector, [componentConstructor])](#module_domv/lib/Component--Component#selector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-    * [.assertSelector(selector, [componentConstructor])](#module_domv/lib/Component--Component#assertSelector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-    * [.selectorAll(selector, [componentConstructor])](#module_domv/lib/Component--Component#selectorAll) ⇒ <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
+    * [.selector(selector, [ComponentConstructor])](#module_domv/lib/Component--Component#selector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+    * [.assertSelector(selector, [ComponentConstructor])](#module_domv/lib/Component--Component#assertSelector) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+    * [.selectorAll(selector, [ComponentConstructor])](#module_domv/lib/Component--Component#selectorAll) ⇒ <code>[Array.&lt;Component&gt;](#exp_module_domv/lib/Component--Component)</code>
     * [.adoptAllAttributes(from)](#module_domv/lib/Component--Component#adoptAllAttributes)
     * [.swapNode(node)](#module_domv/lib/Component--Component#swapNode)
     * [.isAllWhiteSpace([checkChildElements])](#module_domv/lib/Component--Component#isAllWhiteSpace) ⇒ <code>boolean</code>
