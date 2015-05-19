@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "inherits": "^2.0.1",
-    "throwable": "^1.0.0"
+    "throwable": "^1.0.3"
   },
   "optionalDependencies": {
     "jsdom": "^5.4.1"
