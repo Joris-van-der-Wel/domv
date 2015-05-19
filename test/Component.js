@@ -1218,10 +1218,16 @@ module.exports = {
                 wrapped.on('customtest', customtest, false); // bubble phase
                 wrapped.on('customtest2', customtest2, true, myThisObject); // capture phase
 
-                test.expect(12);
+                test.expect(14);
 
                 wrapped.emit('customtest');
-                wrapped.emit('customtest2', {abc: 'zyx'}, false, false);
+                wrapped.emit('customtest2', {abc: 'zyx', bubbles: false, cancelable: false});
+                test.strictEqual(called, 2);
+
+                test.throws(function()
+                {
+                        wrapped.emit('customtest2', {currentTarget: 'foo'});
+                }, domv.Exception);
                 test.strictEqual(called, 2);
 
                 wrapped.removeListener('customtest', customtest);
