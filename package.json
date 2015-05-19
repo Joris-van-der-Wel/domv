@@ -39,7 +39,7 @@
     "throwable": "^1.0.0"
   },
   "optionalDependencies": {
-    "jsdom": "^3.1.0"
+    "jsdom": "^5.4.1"
   },
   "devDependencies": {
     "browserify": "^7.0.1",
