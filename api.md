@@ -35,7 +35,6 @@
     * [.parseHTMLSnippit(ownerDocument, markup)](#module_domv.parseHTMLSnippit) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.cssStringEscape([str], [wrapInQuotes])](#module_domv.cssStringEscape) ⇒ <code>String</code>
     * [.isLeftMouseButton(event)](#module_domv.isLeftMouseButton) ⇒ <code>boolean</code>
-    * [.nameOverridesBuiltin(name)](#module_domv.nameOverridesBuiltin) ⇒ <code>Boolean</code>
   * _inner_
     * [~domv/lib/CreateShortHand](#module_domv..domv/lib/CreateShortHand) : <code>function</code>
     * [~Node](#external_Node)
@@ -288,19 +287,6 @@ Given that 'event' is a mouse event, is the left mouse button being held down?.
 | Param | Type |
 | --- | --- |
 | event | <code>[Event](#external_Event)</code> | 
-
-<a name="module_domv.nameOverridesBuiltin"></a>
-### domv.nameOverridesBuiltin(name) ⇒ <code>Boolean</code>
-Does the given name potentially override a builtin property of `document` or `HTMLFormElement`?
-This list of invalid properties used by this method might not be exhaustive, this method is not intended
-to validate arbitrary user input.
-
-**Kind**: static method of <code>[domv](#module_domv)</code>  
-**Returns**: <code>Boolean</code> - True if this name overrides a builtin property  
-
-| Param | Description |
-| --- | --- |
-| name | Value of `name` or `id` attribute |
 
 <a name="module_domv..domv/lib/CreateShortHand"></a>
 ### domv~domv/lib/CreateShortHand : <code>function</code>
