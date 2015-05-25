@@ -70,8 +70,6 @@ module.exports = {
                 test.ok(!div.isDOMVComponent);
 
                 test.ok(wrapped.document === this.document);
-                test.ok(wrapped.__outerNode__ === div);
-                test.ok(wrapped.__innerNode__ === div);
                 test.ok(wrapped.outerNode === div);
                 test.ok(wrapped.innerNode === div);
                 test.ok(wrapped.outerNodeWrapped.outerNode === div);
@@ -84,8 +82,6 @@ module.exports = {
 
                 wrapped.innerNode = wrapped;
                 wrapped.outerNode = wrapped;
-                test.ok(wrapped.__outerNode__ === div);
-                test.ok(wrapped.__innerNode__ === div);
                 test.ok(wrapped.outerNode === div);
                 test.ok(wrapped.innerNode === div);
 
@@ -94,8 +90,6 @@ module.exports = {
 
                 wrapped.innerNodeWrapped = wrapped;
                 wrapped.outerNodeWrapped = wrapped;
-                test.ok(wrapped.__outerNode__ === div);
-                test.ok(wrapped.__innerNode__ === div);
                 test.ok(wrapped.outerNode === div);
                 test.ok(wrapped.innerNode === div);
 

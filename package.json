@@ -35,6 +35,7 @@
     "jsdom": false
   },
   "dependencies": {
+    "es6-symbol": "^2.0.1",
     "inherits": "^2.0.1",
     "throwable": "^1.0.3"
   },

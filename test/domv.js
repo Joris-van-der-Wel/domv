@@ -518,6 +518,12 @@ module.exports = {
                                 return;
                         }
 
+                        if (name[0] === '@' && name[1] === '@')
+                        {
+                                // skip properties added by es6-symbol polyfill
+                                return;
+                        }
+
                         test.ok(domv.nameOverridesBuiltin(name), name);
                 });
 
@@ -527,6 +533,12 @@ module.exports = {
                         {
                                 // skip jsdom interal property
                                 // (also, jsdom does not support [OverrideBuiltins] yet)
+                                return;
+                        }
+
+                        if (name[0] === '@' && name[1] === '@')
+                        {
+                                // skip properties added by es6-symbol polyfill
                                 return;
                         }
 
