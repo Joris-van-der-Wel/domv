@@ -39,15 +39,15 @@
     "throwable": "^1.0.3"
   },
   "optionalDependencies": {
-    "jsdom": "^5.4.1"
+    "jsdom": "^5.4.3"
   },
   "devDependencies": {
-    "browserify": "^7.0.1",
-    "istanbul": "^0.3.5",
-    "jsdoc": "^3.3.0-alpha11",
-    "jsdoc-to-markdown": "^0.6.4",
-    "jshint": "^2.5.10",
-    "nodeunit": "^0.9.0"
+    "browserify": "^10.2.1",
+    "istanbul": "^0.3.14",
+    "jsdoc": "^3.3.0",
+    "jsdoc-to-markdown": "^1.1.1",
+    "jshint": "^2.7.0",
+    "nodeunit": "^0.9.1"
   },
   "scripts": {
     "pretest": "browserify -d -r ./test/browser-test.js:domv-browser-test > test/out/browser-test-bundle.js",
