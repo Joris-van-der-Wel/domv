@@ -2,28 +2,6 @@
 
 var domv = require('../lib/domv');
 
-function getAllPropertyNames()
-{
-        var names = [];
-
-        for (var i = 0; i < arguments.length; ++i)
-        {
-                var obj = arguments[i];
-
-                while (obj)
-                {
-                        names = names.concat(Object.getOwnPropertyNames(obj));
-                        obj = Object.getPrototypeOf(obj);
-                }
-        }
-
-        names.sort();
-        return names.filter(function(name, index, names)
-        {
-                return index === 0 || names[index - 1] !== name;
-        });
-}
-
 function testParseHTMLDocumentResult(test, doc)
 {
         var p;
@@ -504,52 +482,6 @@ module.exports = {
                 test.ok(! domv.isLeftMouseButton({
                         buttons: 2 // right only
                 }));
-
-                test.done();
-        },
-        'nameOverridesBuiltin': function(test)
-        {
-                getAllPropertyNames(this.document).forEach(function(name)
-                {
-                        if (require('jsdom').jsdom && name[0] === '_')
-                        {
-                                // skip jsdom interal property
-                                // (also, jsdom does not support [OverrideBuiltins] yet)
-                                return;
-                        }
-
-                        if (name[0] === '@' && name[1] === '@')
-                        {
-                                // skip properties added by es6-symbol polyfill
-                                return;
-                        }
-
-                        test.ok(domv.nameOverridesBuiltin(name), name);
-                });
-
-                getAllPropertyNames(this.document.createElement('form')).forEach(function(name)
-                {
-                        if (require('jsdom').jsdom && name[0] === '_')
-                        {
-                                // skip jsdom interal property
-                                // (also, jsdom does not support [OverrideBuiltins] yet)
-                                return;
-                        }
-
-                        if (name[0] === '@' && name[1] === '@')
-                        {
-                                // skip properties added by es6-symbol polyfill
-                                return;
-                        }
-
-                        test.ok(domv.nameOverridesBuiltin(name), name);
-                });
-
-                // a few random ones it should return false for
-                test.ok(!domv.nameOverridesBuiltin('foo'));
-                test.ok(!domv.nameOverridesBuiltin('firstchild')); // (wrong case)
-                test.ok(!domv.nameOverridesBuiltin('bar'));
-                test.ok(!domv.nameOverridesBuiltin(''));
 
                 test.done();
         }
