@@ -441,6 +441,7 @@ This is the super class for your components.
     * [.isDOMVComponent](#module_domv/lib/Component--Component+isDOMVComponent) : <code>boolean</code>
     * [.isCreationConstructor(node, [wrapDocument])](#module_domv/lib/Component--Component+isCreationConstructor) ⇒ <code>boolean</code>
     * [.parseShorthandArgument(arg)](#module_domv/lib/Component--Component+parseShorthandArgument) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+    * [.type(type)](#module_domv/lib/Component--Component+type) ⇒ <code>Component</code>
     * [.on(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component+on) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.addListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component+addListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component+removeListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
@@ -459,7 +460,6 @@ This is the super class for your components.
     * [.siblingAfter(...node_)](#module_domv/lib/Component--Component+siblingAfter) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeNode()](#module_domv/lib/Component--Component+removeNode) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeChildren()](#module_domv/lib/Component--Component+removeChildren) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-    * [.cls(...cls)](#module_domv/lib/Component--Component+cls) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.addClass(...cls)](#module_domv/lib/Component--Component+addClass) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeClass(...cls)](#module_domv/lib/Component--Component+removeClass) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.hasClass(...cls)](#module_domv/lib/Component--Component+hasClass) ⇒ <code>boolean</code>
@@ -766,6 +766,27 @@ and children to nodes with a shorthand syntax.
 | --- | --- |
 | arg | <code>string</code> &#124; <code>[Node](#external_Node)</code> &#124; <code>[domv/lib/Component](#module_domv/lib/Component)</code> &#124; <code>Object.&lt;string, string&gt;</code> | 
 
+<a name="module_domv/lib/Component--Component+type"></a>
+#### component.type(type) ⇒ <code>Component</code>
+Used in Component constructors to mark this object to be an instance of the given type.
+The "type argument" is used to add a html class and to overwrite the "data-type" attribute.
+
+Effectively, this means that you can use .hasClass('Foo') to check if the Component is a direct
+instance or an instance of a super class of a Foo component. And that
+`.getAttr('data-type') === 'Bar'` can be used to check if the Component is a direct instance
+of Bar (any instances of super or subclasses will fail this check).
+
+**Kind**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
+**Returns**: <code>Component</code> - this  
+
+| Param | Type |
+| --- | --- |
+| type | <code>String</code> | 
+
+**Example**  
+```js
+this.type('TextField');
+```
 <a name="module_domv/lib/Component--Component+on"></a>
 #### component.on(event, listener, [useCapture], [thisObject]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
 Adds a listener to the DOM.
@@ -1011,21 +1032,6 @@ Removes the all the children of the inner node
 
 **Kind**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
 **Returns**: <code>[Component](#exp_module_domv/lib/Component--Component)</code> - this  
-<a name="module_domv/lib/Component--Component+cls"></a>
-#### component.cls(...cls) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-Add a className on the outer node.
-
-**Kind**: instance method of <code>[Component](#exp_module_domv/lib/Component--Component)</code>  
-**Returns**: <code>[Component](#exp_module_domv/lib/Component--Component)</code> - this  
-**Throws**:
-
-- <code>[domv/lib/Exception](#module_domv/lib/Exception)</code> If the outer node of this Component does not support attributes;
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ...cls | <code>string</code> | The className to add |
-
 <a name="module_domv/lib/Component--Component+addClass"></a>
 #### component.addClass(...cls) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
 Add classNames on the outer node.
@@ -1338,6 +1344,7 @@ Represents a full document in html, including the root node html.
     * [.getJSONData(identifier)](#module_domv/lib/HtmlDocument--HtmlDocument+getJSONData) ⇒ <code>\*</code>
     * [.isCreationConstructor(node, [wrapDocument])](#module_domv/lib/Component--Component+isCreationConstructor) ⇒ <code>boolean</code>
     * [.parseShorthandArgument(arg)](#module_domv/lib/Component--Component+parseShorthandArgument) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
+    * [.type(type)](#module_domv/lib/Component--Component+type) ⇒ <code>Component</code>
     * [.on(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component+on) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.addListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component+addListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeListener(event, listener, [useCapture], [thisObject])](#module_domv/lib/Component--Component+removeListener) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
@@ -1356,7 +1363,6 @@ Represents a full document in html, including the root node html.
     * [.siblingAfter(...node_)](#module_domv/lib/Component--Component+siblingAfter) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeNode()](#module_domv/lib/Component--Component+removeNode) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeChildren()](#module_domv/lib/Component--Component+removeChildren) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-    * [.cls(...cls)](#module_domv/lib/Component--Component+cls) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.addClass(...cls)](#module_domv/lib/Component--Component+addClass) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.removeClass(...cls)](#module_domv/lib/Component--Component+removeClass) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
     * [.hasClass(...cls)](#module_domv/lib/Component--Component+hasClass) ⇒ <code>boolean</code>
@@ -1381,7 +1387,8 @@ Represents a full document in html, including the root node html.
 **Extends:** <code>[domv/lib/Component](#module_domv/lib/Component)</code>  
 <a name="new_module_domv/lib/HtmlDocument--HtmlDocument_new"></a>
 #### new HtmlDocument(node)
-This constructor can be used to either create a new html document (html, head, body),or to wrap an existing html document into this class.
+This constructor can be used to either create a new html document (html, head, body),
+or to wrap an existing html document into this class.
 
 **Throws**:
 
@@ -1398,7 +1405,8 @@ new HtmlDocument() // create a new Document Node, including html (as its child),
 ```
 **Example**  
 ```js
-new HtmlDocument(document); // Create html, head and body elements using the given Document Node,         but do not modify the given Document node (constructors should be side-effect free).
+new HtmlDocument(document); // Create html, head and body elements using the given Document Node,
+         but do not modify the given Document node (constructors should be side-effect free).
 ```
 **Example**  
 ```js
@@ -1416,22 +1424,26 @@ The "body" Element of the document.
 **Kind**: instance property of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 <a name="module_domv/lib/HtmlDocument--HtmlDocument+baseWrapped"></a>
 #### htmlDocument.baseWrapped : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-The "base" Element of the document.(within the "head" node)
+The "base" Element of the document.
+(within the "head" node)
 
 **Kind**: instance property of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 <a name="module_domv/lib/HtmlDocument--HtmlDocument+titleWrapped"></a>
 #### htmlDocument.titleWrapped : <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-The "title" Element of the document.(within the head node)
+The "title" Element of the document.
+(within the head node)
 
 **Kind**: instance property of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 <a name="module_domv/lib/HtmlDocument--HtmlDocument+title"></a>
 #### htmlDocument.title : <code>string</code>
-The textContent of the "title" Element of this document.(within the "head" node)
+The textContent of the "title" Element of this document.
+(within the "head" node)
 
 **Kind**: instance property of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 <a name="module_domv/lib/HtmlDocument--HtmlDocument+baseURI"></a>
 #### htmlDocument.baseURI : <code>string</code>
-The base URI that is used to resolve all the relative uri's within this document.(this is get/set using a "base" Element within the "head" element)
+The base URI that is used to resolve all the relative uri's within this document.
+(this is get/set using a "base" Element within the "head" element)
 
 **Kind**: instance property of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 <a name="module_domv/lib/Component--Component+document"></a>
@@ -1679,7 +1691,8 @@ Link a javascript file to this document.
 
 <a name="module_domv/lib/HtmlDocument--HtmlDocument+addJSONData"></a>
 #### htmlDocument.addJSONData(identifier, data) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-Expose JSON data to an interpreter of the HTML document using a script type="application/json" element.The data can be retrieved using getJSONData with the same identifier;
+Expose JSON data to an interpreter of the HTML document using a script type="application/json" element.
+The data can be retrieved using getJSONData with the same identifier;
 
 **Kind**: instance method of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 **Returns**: <code>[Component](#exp_module_domv/lib/Component--Component)</code> - The newly created "script" node  
@@ -1691,7 +1704,8 @@ Expose JSON data to an interpreter of the HTML document using a script type="app
 
 **Example**  
 ```js
-myDoc.addJSONData('foo', {'abc': 'def'});// <script type="application/json" data-identifier="foo">{"abc":"def"};</script>
+myDoc.addJSONData('foo', {'abc': 'def'});
+// <script type="application/json" data-identifier="foo">{"abc":"def"};</script>
 ```
 <a name="module_domv/lib/HtmlDocument--HtmlDocument+getJSONData"></a>
 #### htmlDocument.getJSONData(identifier) ⇒ <code>\*</code>
@@ -1731,6 +1745,27 @@ and children to nodes with a shorthand syntax.
 | --- | --- |
 | arg | <code>string</code> &#124; <code>[Node](#external_Node)</code> &#124; <code>[domv/lib/Component](#module_domv/lib/Component)</code> &#124; <code>Object.&lt;string, string&gt;</code> | 
 
+<a name="module_domv/lib/Component--Component+type"></a>
+#### htmlDocument.type(type) ⇒ <code>Component</code>
+Used in Component constructors to mark this object to be an instance of the given type.
+The "type argument" is used to add a html class and to overwrite the "data-type" attribute.
+
+Effectively, this means that you can use .hasClass('Foo') to check if the Component is a direct
+instance or an instance of a super class of a Foo component. And that
+`.getAttr('data-type') === 'Bar'` can be used to check if the Component is a direct instance
+of Bar (any instances of super or subclasses will fail this check).
+
+**Kind**: instance method of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
+**Returns**: <code>Component</code> - this  
+
+| Param | Type |
+| --- | --- |
+| type | <code>String</code> | 
+
+**Example**  
+```js
+this.type('TextField');
+```
 <a name="module_domv/lib/Component--Component+on"></a>
 #### htmlDocument.on(event, listener, [useCapture], [thisObject]) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
 Adds a listener to the DOM.
@@ -1976,21 +2011,6 @@ Removes the all the children of the inner node
 
 **Kind**: instance method of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
 **Returns**: <code>[Component](#exp_module_domv/lib/Component--Component)</code> - this  
-<a name="module_domv/lib/Component--Component+cls"></a>
-#### htmlDocument.cls(...cls) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
-Add a className on the outer node.
-
-**Kind**: instance method of <code>[HtmlDocument](#exp_module_domv/lib/HtmlDocument--HtmlDocument)</code>  
-**Returns**: <code>[Component](#exp_module_domv/lib/Component--Component)</code> - this  
-**Throws**:
-
-- <code>[domv/lib/Exception](#module_domv/lib/Exception)</code> If the outer node of this Component does not support attributes;
-
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ...cls | <code>string</code> | The className to add |
-
 <a name="module_domv/lib/Component--Component+addClass"></a>
 #### htmlDocument.addClass(...cls) ⇒ <code>[Component](#exp_module_domv/lib/Component--Component)</code>
 Add classNames on the outer node.
