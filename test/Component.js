@@ -10,7 +10,7 @@ function TestComponent(document)
         Component.call(this, document);
         var div = this.shorthand('div');
 
-        this.cls('TestComponent');
+        this.type('TestComponent');
         this.appendChild(
                 div('titleBar',
                         this.title = div('title', 'Default Title!'),
@@ -541,7 +541,7 @@ module.exports = {
                 var wrapped = div();
                 var text = domv.text(this.document, 'some text bla');
 
-                wrapped.cls('abc').addClass('def');
+                wrapped.addClass('abc').addClass('def');
                 test.strictEqual('abc def', wrapped.getAttr('class'));
 
                 wrapped.addClass('def');
