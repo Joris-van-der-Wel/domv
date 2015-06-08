@@ -595,6 +595,40 @@ module.exports = {
 
                 test.done();
         },
+        'type()': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var wrapped = doc.create('div');
+
+                test.throws(function()
+                {
+                        wrapped.type();
+                }, domv.Exception);
+
+                test.throws(function()
+                {
+                        wrapped.type('');
+                }, domv.Exception);
+
+                test.strictEqual(null, wrapped.getAttr('data-type'));
+
+                wrapped.type('Foo');
+                test.strictEqual(true, wrapped.hasClass('Foo'));
+                test.strictEqual('Foo', wrapped.getAttr('data-type'));
+
+                wrapped.type('Bar');
+                test.strictEqual(true, wrapped.hasClass('Foo'));
+                test.strictEqual(true, wrapped.hasClass('Bar'));
+                test.strictEqual('Bar', wrapped.getAttr('data-type'));
+
+                wrapped.type('Baz');
+                test.strictEqual(true, wrapped.hasClass('Foo'));
+                test.strictEqual(true, wrapped.hasClass('Bar'));
+                test.strictEqual(true, wrapped.hasClass('Baz'));
+                test.strictEqual('Baz', wrapped.getAttr('data-type'));
+
+                test.done();
+        },
         'attr()': function(test)
         {
                 var doc = domv.wrap(this.document);
