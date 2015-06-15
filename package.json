@@ -1,6 +1,6 @@
 {
   "name": "domv",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "author": "Joris van der Wel <joris@jorisvanderwel.com>",
   "description": "Create views as components using DOM. Run the same code on the browser and on the server.",
   "keywords": [
