@@ -13,7 +13,7 @@ function ${NAME}(node)
         {
                 //var div = this.shorthand('div');
 
-                this.cls('${NAME}');
+                this.type('${NAME}');
 
         }
         ## Wrapping constructor
