@@ -662,6 +662,45 @@ module.exports = {
 
                 test.done();
         },
+        'attr() should ignore prototype': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var wrapped = doc.create('div');
+
+                function Foo()
+                {
+                        this.abc = 'def';
+                }
+
+                Foo.prototype.foo = 'bar';
+
+                wrapped.attr(new Foo());
+
+                test.ok(wrapped.getAttr('abc') === 'def');
+                test.ok(wrapped.getAttr('foo') === null);
+
+                test.done();
+        },
+        'attr() filter function': function(test)
+        {
+                var doc = domv.wrap(this.document);
+                var wrapped = doc.create('div');
+
+                wrapped.attr({
+                        'abc': '456',
+                        'def': '789'
+                });
+
+                wrapped.attr({
+                        abc: 'abc',
+                        def: 'def'
+                }, function(key) { return key !== 'abc'; } );
+
+                test.ok(wrapped.getAttr('abc') === '456');
+                test.ok(wrapped.getAttr('def') === 'def');
+
+                test.done();
+        },
         'selector methods': function(test)
         {
                 var doc = domv.wrap(this.document);
