@@ -1114,9 +1114,22 @@ Set/unset an attribute on the outer node.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>string</code> &#124; <code>Object.&lt;string, string&gt;</code> | The attribute name to unset/set.        Or an object of key value pairs which sets multiple attributes at the same time,        in this case "value" should not be set. |
-| value | <code>string</code> &#124; <code>boolean</code> | The value to set.        Use boolean false or null to unset the attribute. Use boolean true to set a boolean attribute (e.g. checked="checked"). |
+| name | <code>string</code> &#124; <code>Object.&lt;string, string&gt;</code> | The attribute name to unset/set.        Or an object of key value pairs which sets multiple attributes at the same time,        in this case `value` should not be set, or be set to a function that filters the keys. |
+| value | <code>string</code> &#124; <code>boolean</code> | The value to set.        Use boolean false or null to unset the attribute. Use boolean true to set a boolean        attribute (e.g. checked="checked"). |
 
+**Example**  
+```js
+wrapped.attr('title', 'foo');
+```
+**Example**  
+```js
+wrapped.attr({title: 'foo', class: 'bar'});
+```
+**Example**  
+```js
+// do not set title:
+wrapped.attr({title: 'foo', class: 'bar'}, function(key) { return key !== 'title'; });
+```
 <a name="module_domv/lib/Component--Component+getAttr"></a>
 #### component.getAttr(name) ⇒ <code>string</code>
 Get the value of a single attribute of the outer node.
@@ -2093,9 +2106,22 @@ Set/unset an attribute on the outer node.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| name | <code>string</code> &#124; <code>Object.&lt;string, string&gt;</code> | The attribute name to unset/set.        Or an object of key value pairs which sets multiple attributes at the same time,        in this case "value" should not be set. |
-| value | <code>string</code> &#124; <code>boolean</code> | The value to set.        Use boolean false or null to unset the attribute. Use boolean true to set a boolean attribute (e.g. checked="checked"). |
+| name | <code>string</code> &#124; <code>Object.&lt;string, string&gt;</code> | The attribute name to unset/set.        Or an object of key value pairs which sets multiple attributes at the same time,        in this case `value` should not be set, or be set to a function that filters the keys. |
+| value | <code>string</code> &#124; <code>boolean</code> | The value to set.        Use boolean false or null to unset the attribute. Use boolean true to set a boolean        attribute (e.g. checked="checked"). |
 
+**Example**  
+```js
+wrapped.attr('title', 'foo');
+```
+**Example**  
+```js
+wrapped.attr({title: 'foo', class: 'bar'});
+```
+**Example**  
+```js
+// do not set title:
+wrapped.attr({title: 'foo', class: 'bar'}, function(key) { return key !== 'title'; });
+```
 <a name="module_domv/lib/Component--Component+getAttr"></a>
 #### htmlDocument.getAttr(name) ⇒ <code>string</code>
 Get the value of a single attribute of the outer node.
